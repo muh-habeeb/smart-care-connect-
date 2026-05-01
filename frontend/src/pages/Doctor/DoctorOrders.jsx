@@ -60,9 +60,9 @@ export default function DoctorOrders({ mode = 'history' }) {
   }, 0);
 
   const categories = [
-    { id: 'Medicines', icon: Pill, color: 'text-emerald-400', bg: 'bg-emerald-500/10' },
-    { id: 'Equipment', icon: Stethoscope, color: 'text-primary', bg: 'bg-primary/10' },
-    { id: 'Laboratory Items', icon: Beaker, color: 'text-amber-400', bg: 'bg-amber-500/10' },
+    { id: 'Medicines', icon: Pill, color: 'text-emerald-600', bg: 'bg-emerald-50' },
+    { id: 'Equipment', icon: Stethoscope, color: 'text-primary', bg: 'bg-primary/5' },
+    { id: 'Laboratory Items', icon: Beaker, color: 'text-amber-600', bg: 'bg-amber-50' },
   ];
 
   const addToCart = (productId) => {
@@ -224,12 +224,12 @@ export default function DoctorOrders({ mode = 'history' }) {
       <div className="space-y-6 smooth-enter">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-semibold tracking-tight text-white">
+            <h1 className="text-2xl font-semibold tracking-tight text-slate-900">
               {user?.role === 'Senior Doctor' 
                 ? (mode === 'pending' ? 'Approve Orders' : 'Order History')
                 : 'My Orders'}
             </h1>
-            <p className="text-sm text-slate-300 mt-1">
+            <p className="text-sm text-slate-500 mt-1">
               {user?.role === 'Senior Doctor'
                 ? (mode === 'pending' ? 'Review and authorize medical requests from your juniors.' : 'Track team medical requests and prescriptions.')
                 : 'Manage and track your medical requests and prescriptions.'}
@@ -237,7 +237,7 @@ export default function DoctorOrders({ mode = 'history' }) {
           </div>
           {/* Create Order Button for Juniors */}
           {user?.role === 'Junior Doctor' && (
-            <Button className="gap-2" onClick={() => setView('categories')}>
+            <Button className="gap-2 shadow-md hover:shadow-lg transition-all" onClick={() => setView('categories')}>
               <Plus className="w-4 h-4" /> Create New Order
             </Button>
           )}
@@ -252,40 +252,40 @@ export default function DoctorOrders({ mode = 'history' }) {
             icon={ShoppingCart}
           />
         ) : (
-          <div className="bg-slate-900/60 backdrop-blur-xl border border-slate-700/50 overflow-hidden shadow-sm rounded-xl">
+          <div className="bg-white border border-slate-100 overflow-hidden clay-shadow rounded-3xl">
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse whitespace-nowrap">
                 <thead>
-                  <tr className="border-b border-slate-700/50 bg-slate-800/50">
-                    <th className="px-6 py-4 text-xs font-semibold text-slate-300 uppercase">Order ID</th>
-                    <th className="px-6 py-4 text-xs font-semibold text-slate-300 uppercase">Items</th>
-                    <th className="px-6 py-4 text-xs font-semibold text-slate-300 uppercase">Cost</th>
-                    <th className="px-6 py-4 text-xs font-semibold text-slate-300 uppercase">Status</th>
-                    <th className="px-6 py-4 text-xs font-semibold text-slate-300 uppercase">Payment</th>
-                    <th className="px-6 py-4 text-xs font-semibold text-slate-300 uppercase text-right">Action</th>
+                  <tr className="border-b border-slate-50 bg-slate-50/50">
+                    <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase">Order ID</th>
+                    <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase">Items</th>
+                    <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase">Cost</th>
+                    <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase">Status</th>
+                    <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase">Payment</th>
+                    <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase text-right">Action</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-700/50">
+                <tbody className="divide-y divide-slate-100">
                   {ordersList.map((order) => (
-                    <tr key={order.id} className="hover:bg-slate-800/50 transition-colors">
-                      <td className="px-6 py-4 text-sm font-mono text-white">#{order.shortId}</td>
-                      <td className="px-6 py-4 text-sm text-slate-300">{(order.items || []).length} products</td>
-                      <td className="px-6 py-4 text-sm font-medium text-white">₹{(order.totalCost || 0).toLocaleString()}</td>
+                    <tr key={order.id} className="hover:bg-slate-50 transition-colors">
+                      <td className="px-6 py-4 text-sm font-mono font-bold text-primary">#{order.shortId}</td>
+                      <td className="px-6 py-4 text-sm text-slate-600">{(order.items || []).length} products</td>
+                      <td className="px-6 py-4 text-sm font-bold text-slate-900">₹{(order.totalCost || 0).toLocaleString()}</td>
                       <td className="px-6 py-4">
-                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                          order.status === 'Completed' ? 'bg-emerald-500/20 text-emerald-400' :
-                          order.status === 'Cancelled' ? 'bg-red-500/20 text-red-400' :
-                          order.status === 'Waiting Approval' ? 'bg-amber-500/20 text-amber-400' :
-                          'bg-primary/20 text-primary'
+                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase border ${
+                          order.status === 'Completed' ? 'bg-emerald-50 text-emerald-600 border-emerald-100' :
+                          order.status === 'Cancelled' ? 'bg-red-50 text-red-600 border-red-100' :
+                          order.status === 'Waiting Approval' ? 'bg-amber-50 text-amber-600 border-amber-100' :
+                          'bg-primary/10 text-primary border-primary/20'
                         }`}>
                           {order.status}
                         </span>
                       </td>
                       <td className="px-6 py-4">
-                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                          order.paymentStatus === 'Paid' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 
-                          order.paymentStatus === 'Refunded' ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20' :
-                          'bg-slate-500/20 text-slate-300 border border-slate-700'
+                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase border ${
+                          order.paymentStatus === 'Paid' ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : 
+                          order.paymentStatus === 'Refunded' ? 'bg-blue-50 text-blue-600 border-blue-100' :
+                          'bg-slate-50 text-slate-400 border border-slate-100'
                         }`}>
                           {order.paymentStatus || 'Unpaid'}
                         </span>
@@ -294,12 +294,12 @@ export default function DoctorOrders({ mode = 'history' }) {
                         {user.role === 'Senior Doctor' && order.status !== 'Cancelled' && order.status !== 'Completed' && (
                           <>
                             {order.status === 'Waiting Approval' && (
-                              <Button variant="ghost" size="sm" onClick={() => handleEditOrder(order)} className="h-8 text-primary hover:bg-primary/10">Edit</Button>
+                              <Button variant="ghost" size="sm" onClick={() => handleEditOrder(order)} className="h-8 text-primary hover:bg-primary/5">Edit</Button>
                             )}
                             {order.paymentStatus !== 'Paid' && (
                               <>
-                                <Button size="sm" onClick={() => processPayment(order.id, 'Razorpay')} className="h-8 bg-emerald-500 hover:bg-emerald-600">Pay Now</Button>
-                                <Button size="sm" onClick={() => processPayment(order.id, 'COD')} className="h-8 bg-slate-800 border border-slate-600 text-white hover:bg-slate-700">COD</Button>
+                                <Button size="sm" onClick={() => processPayment(order.id, 'Razorpay')} className="h-8 bg-emerald-500 hover:bg-emerald-600 shadow-sm shadow-emerald-500/20">Pay Now</Button>
+                                <Button size="sm" onClick={() => processPayment(order.id, 'COD')} className="h-8 bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 shadow-sm">COD</Button>
                               </>
                             )}
                             
@@ -312,10 +312,10 @@ export default function DoctorOrders({ mode = 'history' }) {
                                   onClick={() => handleCancelOrder(order)}
                                   disabled={!!disabledReason}
                                   title={disabledReason || "Cancel this order"}
-                                  className={`h-8 font-bold transition-all ${
+                                  className={`h-8 font-black text-[10px] uppercase tracking-wider transition-all border ${
                                     disabledReason 
-                                      ? 'bg-slate-800 text-slate-500 border border-slate-700 cursor-not-allowed opacity-50' 
-                                      : 'bg-red-500/10 text-red-400 border border-red-500/20 hover:bg-red-500 hover:text-white'
+                                      ? 'bg-slate-50 text-slate-300 border-slate-100 cursor-not-allowed' 
+                                      : 'bg-red-50 text-red-500 border-red-100 hover:bg-red-500 hover:text-white hover:border-red-500'
                                   }`}
                                 >
                                   Cancel
@@ -327,7 +327,7 @@ export default function DoctorOrders({ mode = 'history' }) {
                         <Button variant="ghost" size="sm" onClick={() => {
                           setSelectedDetailsOrder(order);
                           setIsDetailsModalOpen(true);
-                        }} className="h-8 text-slate-300">Details</Button>
+                        }} className="h-8 text-slate-500">Details</Button>
                       </td>
                     </tr>
                   ))}
@@ -347,17 +347,17 @@ export default function DoctorOrders({ mode = 'history' }) {
           <div className="space-y-6 max-h-[75vh] overflow-y-auto pr-1 custom-scrollbar">
             {/* Current Items */}
             <div className="space-y-3">
-              <h4 className="text-xs font-bold uppercase text-slate-500 tracking-widest">Current Prescriptions</h4>
-              <div className="bg-white/5 rounded-xl border border-slate-700/50 divide-y divide-slate-700/50">
+              <h4 className="text-xs font-black uppercase text-slate-400 tracking-widest">Current Prescriptions</h4>
+              <div className="bg-slate-50/50 rounded-2xl border border-slate-100 divide-y divide-slate-100">
                 {editingOrder?.items.map((item, idx) => (
-                  <div key={idx} className="p-4 flex justify-between items-center group">
+                  <div key={idx} className="p-4 flex justify-between items-center group hover:bg-white transition-colors">
                     <div>
-                      <p className="text-sm font-bold text-white">{item.name}</p>
-                      <p className="text-xs text-slate-400">₹{item.price} × {item.quantity} units</p>
+                      <p className="text-sm font-bold text-slate-900">{item.name}</p>
+                      <p className="text-xs text-slate-500">₹{item.price} × {item.quantity} units</p>
                     </div>
                     <div className="flex items-center gap-3">
-                      <p className="text-sm font-black text-white">₹{item.price * item.quantity}</p>
-                      <button onClick={() => removeOrderItem(idx)} className="text-slate-500 hover:text-red-400 p-1 transition-colors">
+                      <p className="text-sm font-black text-slate-900">₹{item.price * item.quantity}</p>
+                      <button onClick={() => removeOrderItem(idx)} className="text-slate-400 hover:text-red-500 p-1 transition-colors">
                         <Trash2 size={16} />
                       </button>
                     </div>
@@ -367,26 +367,26 @@ export default function DoctorOrders({ mode = 'history' }) {
             </div>
 
             {/* Add New Item Section */}
-            <div className="space-y-3 pt-4 border-t border-slate-700/50">
-              <h4 className="text-xs font-bold uppercase text-slate-500 tracking-widest flex items-center gap-2">
+            <div className="space-y-3 pt-4 border-t border-slate-100">
+              <h4 className="text-xs font-black uppercase text-slate-400 tracking-widest flex items-center gap-2">
                 <Plus size={14} className="text-primary" /> Add Medical Supplies
               </h4>
               <div className="relative group">
                 <input 
                   type="text" 
                   placeholder="Search products to add..."
-                  className="w-full bg-slate-800/50 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
+                  className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all shadow-sm"
                   onChange={(e) => setSearchTerm(e.target.value)}
                   value={searchTerm}
                 />
                 {searchTerm && (
-                  <div className="absolute top-full left-0 right-0 mt-2 bg-slate-900 border border-slate-700 rounded-xl shadow-2xl z-50 max-h-60 overflow-y-auto divide-y divide-slate-700/50">
+                  <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-slate-100 rounded-2xl shadow-xl z-50 max-h-60 overflow-y-auto divide-y divide-slate-50 overflow-hidden">
                     {productsList
                       .filter(p => p.name.toLowerCase().includes(searchTerm.toLowerCase()))
                       .map(product => (
                         <div 
                           key={product.id} 
-                          className="p-3 hover:bg-white/5 cursor-pointer flex justify-between items-center"
+                          className="p-4 hover:bg-slate-50 cursor-pointer flex justify-between items-center transition-colors"
                           onClick={() => {
                             const newItems = [...(editingOrder.items || [])];
                             const existingItem = newItems.find(i => i.productId === product.id);
@@ -410,10 +410,10 @@ export default function DoctorOrders({ mode = 'history' }) {
                           }}
                         >
                           <div>
-                            <p className="text-sm font-medium text-white">{product.name}</p>
-                            <p className="text-[10px] text-slate-500">{product.category}</p>
+                            <p className="text-sm font-bold text-slate-900">{product.name}</p>
+                            <p className="text-[10px] text-slate-500 font-medium uppercase">{product.category}</p>
                           </div>
-                          <p className="text-sm font-bold text-primary">₹{product.price}</p>
+                          <p className="text-sm font-black text-primary">₹{product.price}</p>
                         </div>
                       ))
                     }
@@ -423,14 +423,14 @@ export default function DoctorOrders({ mode = 'history' }) {
             </div>
 
             {/* Footer */}
-            <div className="pt-6 border-t border-slate-700/50 flex justify-between items-center sticky bottom-0 bg-slate-900 pb-2">
+            <div className="pt-6 border-t border-slate-100 flex justify-between items-center sticky bottom-0 bg-white pb-2">
               <div>
-                <p className="text-xs text-slate-400">Total Payable Amount</p>
-                <p className="text-2xl font-black text-white">₹{editingOrder?.totalCost.toLocaleString()}</p>
+                <p className="text-xs text-slate-400 font-bold uppercase tracking-wider">Total Payable</p>
+                <p className="text-2xl font-black text-slate-900">₹{editingOrder?.totalCost.toLocaleString()}</p>
               </div>
               <div className="flex gap-2">
-                <Button variant="ghost" onClick={() => setIsEditModalOpen(false)} className="text-slate-400">Cancel</Button>
-                <Button onClick={saveEditedOrder} className="font-bold shadow-lg shadow-primary/20">Save & Approve</Button>
+                <Button variant="ghost" onClick={() => setIsEditModalOpen(false)} className="text-slate-500">Cancel</Button>
+                <Button onClick={saveEditedOrder} className="font-bold shadow-md">Save & Approve</Button>
               </div>
             </div>
           </div>
@@ -444,29 +444,31 @@ export default function DoctorOrders({ mode = 'history' }) {
     return (
       <div className="space-y-8 smooth-enter">
         <div className="flex items-center gap-4">
-          <Button variant="ghost" size="sm" onClick={() => setView('history')} className="text-slate-300">
-            <ArrowLeft className="w-4 h-4 mr-2" /> Back
+          <Button variant="ghost" size="sm" onClick={() => setView('history')} className="text-slate-500 hover:bg-slate-100 rounded-xl">
+            <ArrowLeft className="w-4 h-4 mr-2" /> Back to History
           </Button>
-          <h1 className="text-2xl font-semibold text-white">Select Category</h1>
+          <h1 className="text-2xl font-semibold text-slate-900">Select Category</h1>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {categories.map((cat) => (
             <Card 
               key={cat.id} 
-              className="group cursor-pointer bg-slate-900/60 backdrop-blur-xl border-slate-700/50 hover:border-primary/50 transition-all hover:translate-y-[-4px]"
+              className="group cursor-pointer bg-white border border-slate-100 hover:border-primary/30 transition-all hover:-translate-y-1 shadow-sm hover:shadow-md rounded-3xl"
               onClick={() => {
                 setSelectedCategory(cat.id);
                 setView('listing');
               }}
             >
               <CardContent className="p-8 flex flex-col items-center text-center">
-                <div className={`w-20 h-20 rounded-3xl ${cat.bg} ${cat.color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-lg shadow-black/20`}>
+                <div className={`w-20 h-20 rounded-3xl ${cat.bg} ${cat.color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-sm`}>
                   <cat.icon size={40} />
                 </div>
-                <h3 className="text-xl font-bold text-white mb-2">{cat.id}</h3>
-                <p className="text-sm text-slate-400">Browse and add {cat.id.toLowerCase()} to your order.</p>
-                <ChevronRight className="w-5 h-5 text-slate-500 mt-6 group-hover:text-primary transition-colors" />
+                <h3 className="text-xl font-bold text-slate-900 mb-2">{cat.id}</h3>
+                <p className="text-sm text-slate-500 leading-relaxed">Browse and add {cat.id.toLowerCase()} to your medical order.</p>
+                <div className="mt-6 w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center group-hover:bg-primary/10 transition-colors">
+                  <ChevronRight className="w-5 h-5 text-slate-400 group-hover:text-primary transition-colors" />
+                </div>
               </CardContent>
             </Card>
           ))}
@@ -484,44 +486,44 @@ export default function DoctorOrders({ mode = 'history' }) {
       <div className="flex-1 space-y-6">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <Button variant="ghost" size="sm" onClick={() => setView('categories')} className="text-slate-300">
-              <ArrowLeft className="w-4 h-4 mr-2" /> Categories
+            <Button variant="ghost" size="sm" onClick={() => setView('categories')} className="text-slate-500 hover:bg-slate-100 rounded-xl">
+              <ArrowLeft className="w-4 h-4 mr-2" /> Back to Categories
             </Button>
-            <h1 className="text-2xl font-semibold text-white">{selectedCategory}</h1>
+            <h1 className="text-2xl font-bold text-slate-900 tracking-tight">{selectedCategory}</h1>
           </div>
         </div>
 
-        <div className="bg-slate-900/60 backdrop-blur-xl border border-slate-700/50 overflow-hidden rounded-2xl shadow-xl">
-          <table className="w-full text-left">
+        <div className="bg-white border border-slate-100 overflow-hidden rounded-2xl clay-shadow">
+          <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="border-b border-slate-700/50 bg-slate-800/50">
-                <th className="px-6 py-4 text-xs font-semibold text-slate-300 uppercase">Product</th>
-                <th className="px-6 py-4 text-xs font-semibold text-slate-300 uppercase">Price</th>
-                <th className="px-6 py-4 text-xs font-semibold text-slate-300 uppercase">Stock</th>
-                <th className="px-6 py-4 text-xs font-semibold text-slate-300 uppercase text-right">Action</th>
+              <tr className="border-b border-slate-50 bg-slate-50/50">
+                <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Product</th>
+                <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Price</th>
+                <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Stock</th>
+                <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider text-right">Action</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-700/50">
+            <tbody className="divide-y divide-slate-100">
               {filteredProducts.map((product) => (
-                <tr key={product.id} className="hover:bg-white/5 transition-colors">
+                <tr key={product.id} className="hover:bg-slate-50 transition-colors group">
                   <td className="px-6 py-4">
-                    <p className="text-sm font-medium text-white">{product.name}</p>
-                    <p className="text-xs text-slate-400">{product.category}</p>
+                    <p className="text-sm font-bold text-slate-900">{product.name}</p>
+                    <p className="text-xs text-slate-500 font-medium">{product.category}</p>
                   </td>
-                  <td className="px-6 py-4 text-sm text-white font-semibold">₹{product.price}</td>
+                  <td className="px-6 py-4 text-sm text-slate-900 font-black">₹{product.price}</td>
                   <td className="px-6 py-4">
-                    <span className={`text-xs font-medium ${product.stock > 0 ? 'text-emerald-400' : 'text-red-400'}`}>
-                      {product.stock > 0 ? `${product.stock} available` : 'Out of stock'}
+                    <span className={`text-[10px] font-black uppercase px-2 py-0.5 rounded-full border ${product.stock > 0 ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : 'bg-red-50 text-red-600 border-red-100'}`}>
+                      {product.stock > 0 ? `${product.stock} in stock` : 'Out of stock'}
                     </span>
                   </td>
                   <td className="px-6 py-4 text-right">
                     <Button 
                       size="sm" 
-                      className="h-8 shadow-md"
+                      className="h-8 shadow-sm font-bold"
                       onClick={() => addToCart(product.id)}
                       disabled={product.stock === 0}
                     >
-                      <Plus className="w-4 h-4 mr-1" /> Add
+                      <Plus className="w-4 h-4 mr-1" /> Add to Order
                     </Button>
                   </td>
                 </tr>
@@ -534,44 +536,50 @@ export default function DoctorOrders({ mode = 'history' }) {
       {/* Cart Sidebar */}
       <div className="w-full lg:w-80 shrink-0">
         <div className="sticky top-6">
-          <Card className="bg-slate-900/60 backdrop-blur-xl border-slate-700/50 shadow-2xl overflow-hidden">
-            <div className="bg-primary/20 p-4 border-b border-slate-700/50 flex items-center gap-2">
-              <ShoppingBag className="w-5 h-5 text-primary" />
-              <h2 className="font-bold text-white">Current Order</h2>
-              <span className="ml-auto bg-primary text-white text-xs px-2 py-0.5 rounded-full">{cartCount}</span>
+          <Card className="bg-white border border-slate-100 clay-shadow overflow-hidden rounded-3xl">
+            <div className="bg-primary/5 p-5 border-b border-slate-100 flex items-center gap-3">
+              <div className="w-10 h-10 rounded-2xl bg-primary/10 flex items-center justify-center text-primary">
+                <ShoppingBag size={20} />
+              </div>
+              <div>
+                <h2 className="font-bold text-slate-900">Current Order</h2>
+                <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">{cartCount} items selected</p>
+              </div>
             </div>
             
             <CardContent className="p-0">
               {cartCount === 0 ? (
-                <div className="p-8 text-center">
-                  <Package className="w-12 h-12 text-slate-600 mx-auto mb-3 opacity-20" />
-                  <p className="text-sm text-slate-500">Your cart is empty.</p>
+                <div className="p-12 text-center">
+                  <div className="w-16 h-16 rounded-3xl bg-slate-50 flex items-center justify-center mx-auto mb-4">
+                    <Package className="w-8 h-8 text-slate-300" />
+                  </div>
+                  <p className="text-sm text-slate-400 font-medium">Your medical order is currently empty.</p>
                 </div>
               ) : (
                 <>
-                  <div className="max-h-[40vh] overflow-y-auto divide-y divide-slate-700/50 p-2">
+                  <div className="max-h-[40vh] overflow-y-auto divide-y divide-slate-50 p-2 custom-scrollbar">
                     {Object.entries(cart).map(([id, qty]) => (
-                      <div key={id} className="p-3 space-y-2">
+                      <div key={id} className="p-4 space-y-3 group hover:bg-slate-50 transition-colors rounded-2xl">
                         <div className="flex justify-between items-start">
                           <div className="flex-1 overflow-hidden">
-                            <p className="text-sm font-medium text-white line-clamp-1">{products[id]?.name}</p>
-                            <p className="text-[10px] text-slate-500 font-medium uppercase tracking-wider">{products[id]?.category}</p>
+                            <p className="text-sm font-bold text-slate-900 line-clamp-1">{products[id]?.name}</p>
+                            <p className="text-[10px] text-slate-500 font-black uppercase tracking-wider">{products[id]?.category}</p>
                           </div>
-                          <button onClick={() => removeFromCart(id)} className="text-slate-500 hover:text-red-400">
+                          <button onClick={() => removeFromCart(id)} className="text-slate-300 hover:text-red-500 p-1 transition-colors">
                             <Trash2 size={14} />
                           </button>
                         </div>
                         <div className="flex justify-between items-center">
-                          <p className="text-xs text-slate-400">₹{(products[id]?.price * qty).toLocaleString()}</p>
-                          <div className="flex items-center gap-2 bg-slate-800 rounded-lg p-1 border border-slate-700">
+                          <p className="text-xs text-slate-900 font-black">₹{(products[id]?.price * qty).toLocaleString()}</p>
+                          <div className="flex items-center gap-3 bg-white rounded-xl p-1 shadow-sm border border-slate-100">
                             <button 
                               onClick={() => updateCartQty(id, qty - 1)}
-                              className="w-6 h-6 flex items-center justify-center text-slate-400 hover:text-white"
+                              className="w-7 h-7 flex items-center justify-center text-slate-400 hover:text-slate-900 hover:bg-slate-50 rounded-lg transition-colors"
                             >-</button>
-                            <span className="text-xs font-bold text-white w-4 text-center">{qty}</span>
+                            <span className="text-xs font-black text-slate-900 w-4 text-center">{qty}</span>
                             <button 
                               onClick={() => updateCartQty(id, qty + 1)}
-                              className="w-6 h-6 flex items-center justify-center text-slate-400 hover:text-white"
+                              className="w-7 h-7 flex items-center justify-center text-slate-400 hover:text-slate-900 hover:bg-slate-50 rounded-lg transition-colors"
                             >+</button>
                           </div>
                         </div>
@@ -579,17 +587,19 @@ export default function DoctorOrders({ mode = 'history' }) {
                     ))}
                   </div>
                   
-                  <div className="p-4 bg-slate-800/50 border-t border-slate-700/50 space-y-4">
+                  <div className="p-6 bg-slate-50/50 border-t border-slate-100 space-y-6">
                     <div className="flex justify-between items-end">
-                      <p className="text-xs text-slate-400">Total Amount</p>
-                      <p className="text-2xl font-bold text-white">₹{cartTotal.toLocaleString()}</p>
+                      <div>
+                        <p className="text-[10px] text-slate-400 font-black uppercase tracking-widest">Total Payable</p>
+                        <p className="text-2xl font-black text-slate-900">₹{cartTotal.toLocaleString()}</p>
+                      </div>
                     </div>
                     <Button 
-                      className="w-full h-12 rounded-xl font-bold text-white shadow-lg shadow-primary/20"
+                      className="w-full h-14 rounded-2xl font-black uppercase tracking-widest text-xs shadow-lg shadow-primary/20"
                       disabled={isSubmitting}
                       onClick={handlePlaceOrder}
                     >
-                      {isSubmitting ? 'Placing Order...' : 'Confirm Order'}
+                      {isSubmitting ? 'Processing...' : 'Confirm Medical Order'}
                     </Button>
                   </div>
                 </>

@@ -14,28 +14,29 @@ export function Modal({ isOpen, onClose, title, children, className }) {
 
   return createPortal(
     <div 
-      className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/40 backdrop-blur-sm smooth-enter p-4 sm:p-6"
+      className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/20 backdrop-blur-[2px] smooth-enter p-4 sm:p-6"
       onClick={onClose}
     >
       <div 
-        className={cn("relative w-full max-w-lg bg-slate-900/80 backdrop-blur-3xl rounded-2xl shadow-2xl border border-slate-700/50 overflow-hidden flex flex-col max-h-[90vh]", className)}
+        className={cn("relative w-full max-w-lg bg-white rounded-3xl shadow-2xl border border-slate-100 overflow-hidden flex flex-col max-h-[90vh]", className)}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-700/50 bg-slate-800/50">
-          <h2 className="text-lg font-semibold text-white">{title}</h2>
+        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-50 bg-slate-50/30">
+          <h2 className="text-lg font-bold text-slate-900">{title}</h2>
           <button 
             type="button"
             onClick={onClose}
-            className="p-2 text-slate-400 hover:text-white hover:bg-white/10 rounded-full transition-colors"
+            className="p-2 text-slate-400 hover:text-slate-900 hover:bg-slate-50 rounded-full transition-all"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
-        <div className="p-6 overflow-y-auto text-slate-200">
+        <div className="p-6 overflow-y-auto text-slate-600">
           {children}
         </div>
       </div>
-    </div>,
+    </div>
+,
     document.body
   );
 }

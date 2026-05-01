@@ -43,7 +43,7 @@ function BackgroundManager() {
       className="fixed inset-0 z-[-1] transition-all duration-1000 ease-in-out bg-cover bg-center"
       style={{ backgroundImage: bgImage }}
     >
-      <div className="absolute inset-0 bg-slate-900/65 backdrop-blur-[8px]"></div>
+      <div className="absolute inset-0 bg-white/80 backdrop-blur-[6px]"></div>
     </div>
   );
 }
@@ -58,7 +58,7 @@ export default function App() {
   }, [checkAuth]);
 
   if (isLoading) {
-    return <div className="min-h-screen flex items-center justify-center bg-slate-950 text-white">Loading...</div>;
+    return <div className="min-h-screen flex items-center justify-center bg-white text-slate-900 font-bold">Loading...</div>;
   }
 
   return (
@@ -67,7 +67,7 @@ export default function App() {
       <Toaster 
         position="top-center" 
         toastOptions={{
-          className: 'bg-slate-900/90 backdrop-blur-xl border border-slate-700/50 text-white shadow-2xl rounded-2xl text-sm font-medium p-4',
+          className: 'bg-white border border-slate-100 text-slate-900 shadow-xl rounded-2xl text-sm font-bold p-4',
           duration: 4000,
           style: { zIndex: 99999 }
         }}

@@ -125,10 +125,10 @@ export default function ManagerProducts() {
     <div className="space-y-6 smooth-enter">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-semibold tracking-tight text-white">Products</h1>
-          <p className="text-sm text-slate-200 mt-1">Manage hospital inventory including medicines and equipment.</p>
+          <h1 className="text-2xl font-semibold tracking-tight text-slate-900">Products</h1>
+          <p className="text-sm text-slate-500 mt-1">Manage hospital inventory including medicines and equipment.</p>
         </div>
-        <Button className="gap-2" onClick={() => setIsModalOpen(true)}>
+        <Button className="gap-2 shadow-md hover:shadow-lg transition-all" onClick={() => setIsModalOpen(true)}>
           <Plus className="w-4 h-4" /> Add Product
         </Button>
       </div>
@@ -140,12 +140,12 @@ export default function ManagerProducts() {
           icon={Box}
         />
       ) : (
-        <div className="bg-slate-900/60 backdrop-blur-xl border border-slate-700/50 overflow-hidden shadow-sm rounded-xl">
+        <div className="bg-white border border-slate-100 overflow-hidden shadow-sm rounded-2xl">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="border-b border-slate-700/50 bg-slate-800/50">
+              <tr className="border-b border-slate-50 bg-slate-50/50">
                 <th 
-                  className="px-6 py-4 text-xs font-semibold text-slate-300 uppercase cursor-pointer hover:bg-slate-700/50 transition-colors select-none group"
+                  className="px-6 py-4 text-xs font-bold text-slate-500 uppercase cursor-pointer hover:bg-slate-100/50 transition-colors select-none group"
                   onClick={() => handleSort('name')}
                 >
                   <div className="flex items-center gap-1">
@@ -153,7 +153,7 @@ export default function ManagerProducts() {
                   </div>
                 </th>
                 <th 
-                  className="px-6 py-4 text-xs font-semibold text-slate-300 uppercase cursor-pointer hover:bg-slate-700/50 transition-colors select-none group"
+                  className="px-6 py-4 text-xs font-bold text-slate-500 uppercase cursor-pointer hover:bg-slate-100/50 transition-colors select-none group"
                   onClick={() => handleSort('category')}
                 >
                   <div className="flex items-center gap-1">
@@ -161,7 +161,7 @@ export default function ManagerProducts() {
                   </div>
                 </th>
                 <th 
-                  className="px-6 py-4 text-xs font-semibold text-slate-300 uppercase cursor-pointer hover:bg-slate-700/50 transition-colors select-none group"
+                  className="px-6 py-4 text-xs font-bold text-slate-500 uppercase cursor-pointer hover:bg-slate-100/50 transition-colors select-none group"
                   onClick={() => handleSort('price')}
                 >
                   <div className="flex items-center gap-1">
@@ -169,33 +169,33 @@ export default function ManagerProducts() {
                   </div>
                 </th>
                 <th 
-                  className="px-6 py-4 text-xs font-semibold text-slate-300 uppercase cursor-pointer hover:bg-slate-700/50 transition-colors select-none group"
+                  className="px-6 py-4 text-xs font-bold text-slate-500 uppercase cursor-pointer hover:bg-slate-100/50 transition-colors select-none group"
                   onClick={() => handleSort('stock')}
                 >
                   <div className="flex items-center gap-1">
                     Stock <SortIcon col="stock" />
                   </div>
                 </th>
-                <th className="px-6 py-4 text-xs font-semibold text-slate-300 uppercase text-right">Actions</th>
+                <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-700/50">
+            <tbody className="divide-y divide-slate-100">
               {sortedProducts.map((product) => (
-                <tr key={product.id} className="hover:bg-slate-800/50 transition-colors">
-                  <td className="px-6 py-4 text-sm font-medium text-white">{product.name}</td>
-                  <td className="px-6 py-4 text-sm text-slate-300">{product.category}</td>
-                  <td className="px-6 py-4 text-sm text-white">₹{product.price || 0}</td>
+                <tr key={product.id} className="hover:bg-slate-50 transition-colors">
+                  <td className="px-6 py-4 text-sm font-semibold text-slate-900">{product.name}</td>
+                  <td className="px-6 py-4 text-sm text-slate-600">{product.category}</td>
+                  <td className="px-6 py-4 text-sm font-bold text-slate-900">₹{product.price || 0}</td>
                   <td className="px-6 py-4">
-                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${product.stock > 10 ? 'bg-emerald-500/20 text-emerald-400' : 'bg-red-500/20 text-red-400'}`}>
+                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase ${product.stock > 10 ? 'bg-emerald-50 text-emerald-600 border border-emerald-100' : 'bg-red-50 text-red-600 border border-red-100'}`}>
                       {product.stock} in stock
                     </span>
                   </td>
                   <td className="px-6 py-4 text-right">
-                    <div className="flex items-center justify-end gap-2">
+                    <div className="flex items-center justify-end gap-1">
                       <Button 
                         variant="ghost" 
                         size="sm" 
-                        className="h-8 text-slate-300 hover:text-white hover:bg-slate-700/50"
+                        className="h-8 text-slate-600 hover:text-slate-900 hover:bg-slate-100"
                         onClick={() => {
                           setEditingProduct(product);
                           setIsEditModalOpen(true);
@@ -206,7 +206,7 @@ export default function ManagerProducts() {
                       <Button 
                         variant="ghost" 
                         size="sm" 
-                        className="h-8 text-red-400 hover:text-red-300 hover:bg-red-500/20"
+                        className="h-8 text-red-500 hover:text-red-600 hover:bg-red-50"
                         onClick={() => setDeletingProduct(product)}
                       >
                         <Trash2 className="w-4 h-4" />
@@ -223,17 +223,18 @@ export default function ManagerProducts() {
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="Add New Product">
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-1">Product Name</label>
+            <label className="block text-sm font-medium text-slate-700 mb-1">Product Name</label>
             <input 
               required value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})}
-              className="w-full h-10 px-3 rounded-lg border border-slate-700/50 bg-slate-900/50 focus:outline-none focus:ring-2 focus:ring-primary/50 text-sm text-white"
+              className="w-full h-11 px-4 rounded-xl border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-primary/20 text-sm text-slate-900"
+              placeholder="Ex: Paracetamol 500mg"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-1">Category</label>
+            <label className="block text-sm font-medium text-slate-700 mb-1">Category</label>
             <select 
               value={formData.category} onChange={e => setFormData({...formData, category: e.target.value})}
-              className="w-full h-10 px-3 rounded-lg border border-slate-700/50 bg-slate-900/50 focus:outline-none focus:ring-2 focus:ring-primary/50 text-sm text-white bg-slate-900"
+              className="w-full h-11 px-4 rounded-xl border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-primary/20 text-sm text-slate-900"
             >
               <option value="Medicines">Medicines</option>
               <option value="Equipment">Equipment</option>
@@ -242,23 +243,23 @@ export default function ManagerProducts() {
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-slate-300 mb-1">Price (₹)</label>
+              <label className="block text-sm font-medium text-slate-700 mb-1">Price (₹)</label>
               <input 
                 type="number" required min="0" step="0.01" value={formData.price} onChange={e => setFormData({...formData, price: e.target.value})}
-                className="w-full h-10 px-3 rounded-lg border border-slate-700/50 bg-slate-900/50 focus:outline-none focus:ring-2 focus:ring-primary/50 text-sm text-white"
+                className="w-full h-11 px-4 rounded-xl border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-primary/20 text-sm text-slate-900"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-slate-300 mb-1">Initial Stock</label>
+              <label className="block text-sm font-medium text-slate-700 mb-1">Initial Stock</label>
               <input 
                 type="number" required min="0" value={formData.stock} onChange={e => setFormData({...formData, stock: e.target.value})}
-                className="w-full h-10 px-3 rounded-lg border border-slate-700/50 bg-slate-900/50 focus:outline-none focus:ring-2 focus:ring-primary/50 text-sm text-white"
+                className="w-full h-11 px-4 rounded-xl border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-primary/20 text-sm text-slate-900"
               />
             </div>
           </div>
           <div className="flex justify-end gap-3 pt-4">
-            <Button type="button" variant="ghost" onClick={() => setIsModalOpen(false)} className="text-slate-300">Cancel</Button>
-            <Button type="submit" disabled={loading}>{loading ? 'Adding...' : 'Add Product'}</Button>
+            <Button type="button" variant="ghost" onClick={() => setIsModalOpen(false)} className="text-slate-500">Cancel</Button>
+            <Button type="submit" disabled={loading} className="shadow-md">{loading ? 'Adding...' : 'Add Product'}</Button>
           </div>
         </form>
       </Modal>
@@ -267,17 +268,17 @@ export default function ManagerProducts() {
         {editingProduct && (
           <form onSubmit={handleEditSubmit} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-slate-300 mb-1">Product Name</label>
+              <label className="block text-sm font-medium text-slate-700 mb-1">Product Name</label>
               <input 
                 required value={editingProduct.name} onChange={e => setEditingProduct({...editingProduct, name: e.target.value})}
-                className="w-full h-10 px-3 rounded-lg border border-slate-700/50 bg-slate-900/50 focus:outline-none focus:ring-2 focus:ring-primary/50 text-sm text-white"
+                className="w-full h-11 px-4 rounded-xl border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-primary/20 text-sm text-slate-900"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-slate-300 mb-1">Category</label>
+              <label className="block text-sm font-medium text-slate-700 mb-1">Category</label>
               <select 
                 value={editingProduct.category} onChange={e => setEditingProduct({...editingProduct, category: e.target.value})}
-                className="w-full h-10 px-3 rounded-lg border border-slate-700/50 bg-slate-900/50 focus:outline-none focus:ring-2 focus:ring-primary/50 text-sm text-white bg-slate-900"
+                className="w-full h-11 px-4 rounded-xl border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-primary/20 text-sm text-slate-900"
               >
                 <option value="Medicines">Medicines</option>
                 <option value="Equipment">Equipment</option>
@@ -286,23 +287,23 @@ export default function ManagerProducts() {
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-1">Price (₹)</label>
+                <label className="block text-sm font-medium text-slate-700 mb-1">Price (₹)</label>
                 <input 
                   type="number" required min="0" step="0.01" value={editingProduct.price} onChange={e => setEditingProduct({...editingProduct, price: e.target.value})}
-                  className="w-full h-10 px-3 rounded-lg border border-slate-700/50 bg-slate-900/50 focus:outline-none focus:ring-2 focus:ring-primary/50 text-sm text-white"
+                  className="w-full h-11 px-4 rounded-xl border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-primary/20 text-sm text-slate-900"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-1">Stock</label>
+                <label className="block text-sm font-medium text-slate-700 mb-1">Stock</label>
                 <input 
                   type="number" required min="0" value={editingProduct.stock} onChange={e => setEditingProduct({...editingProduct, stock: e.target.value})}
-                  className="w-full h-10 px-3 rounded-lg border border-slate-700/50 bg-slate-900/50 focus:outline-none focus:ring-2 focus:ring-primary/50 text-sm text-white"
+                  className="w-full h-11 px-4 rounded-xl border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-primary/20 text-sm text-slate-900"
                 />
               </div>
             </div>
             <div className="flex justify-end gap-3 pt-4">
-              <Button type="button" variant="ghost" onClick={() => setIsEditModalOpen(false)} className="text-slate-300">Cancel</Button>
-              <Button type="submit" disabled={editLoading}>{editLoading ? 'Saving...' : 'Save Changes'}</Button>
+              <Button type="button" variant="ghost" onClick={() => setIsEditModalOpen(false)} className="text-slate-500">Cancel</Button>
+              <Button type="submit" disabled={editLoading} className="shadow-md">{editLoading ? 'Saving...' : 'Save Changes'}</Button>
             </div>
           </form>
         )}
@@ -310,15 +311,15 @@ export default function ManagerProducts() {
 
       <Modal isOpen={!!deletingProduct} onClose={() => setDeletingProduct(null)} title="Delete Product">
         <div className="space-y-4">
-          <p className="text-sm text-slate-300">
-            Are you sure you want to delete <span className="font-semibold text-white">{deletingProduct?.name}</span>? 
-            This action cannot be undone.
+          <p className="text-sm text-slate-600 leading-relaxed">
+            Are you sure you want to delete <span className="font-bold text-slate-900">{deletingProduct?.name}</span>? 
+            This action is permanent and cannot be undone.
           </p>
           <div className="flex justify-end gap-3 pt-4">
-            <Button type="button" variant="ghost" onClick={() => setDeletingProduct(null)} className="text-slate-300">Cancel</Button>
+            <Button type="button" variant="ghost" onClick={() => setDeletingProduct(null)} className="text-slate-500">Cancel</Button>
             <Button 
               type="button" 
-              className="bg-red-500 hover:bg-red-600 text-white"
+              className="bg-red-500 hover:bg-red-600 text-white shadow-md shadow-red-500/20"
               disabled={deleteLoading}
               onClick={handleConfirmDelete}
             >

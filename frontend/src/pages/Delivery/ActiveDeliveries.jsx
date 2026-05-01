@@ -40,8 +40,8 @@ export default function ActiveDeliveries() {
   return (
     <div className="space-y-6 smooth-enter">
       <div>
-        <h1 className="text-2xl font-semibold tracking-tight text-white">Active Deliveries</h1>
-        <p className="text-sm text-slate-300 mt-1">Manage your current trips and update delivery statuses.</p>
+        <h1 className="text-2xl font-semibold tracking-tight text-slate-900">Active Deliveries</h1>
+        <p className="text-sm text-slate-500 mt-1">Manage your current trips and update delivery statuses.</p>
       </div>
 
       {activeOrders.length === 0 ? (
@@ -53,63 +53,63 @@ export default function ActiveDeliveries() {
       ) : (
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
           {activeOrders.map((order) => (
-            <div key={order.id} className="bg-slate-900/60 backdrop-blur-xl border border-slate-700/50 rounded-2xl overflow-hidden shadow-2xl flex flex-col sm:flex-row">
+            <div key={order.id} className="bg-white border border-slate-100 rounded-2xl overflow-hidden shadow-sm flex flex-col sm:flex-row transition-all hover:shadow-md">
               {/* Status Side Bar */}
-              <div className={`w-2 shadow-lg ${
-                order.deliveryStatus === 'In Transit' ? 'bg-amber-500 shadow-amber-500/20' : 'bg-primary shadow-primary/20'
+              <div className={`w-2 ${
+                order.deliveryStatus === 'In Transit' ? 'bg-amber-500' : 'bg-primary'
               }`} />
               
               <div className="flex-1 p-6 space-y-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500">Order ID</span>
-                    <p className="text-lg font-mono font-bold text-white">#{order.shortId}</p>
+                    <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Order ID</span>
+                    <p className="text-lg font-mono font-bold text-slate-900">#{order.shortId}</p>
                   </div>
                   <div className="text-right">
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500">Status</span>
-                    <p className={`text-sm font-bold ${order.deliveryStatus === 'In Transit' ? 'text-amber-400' : 'text-primary'}`}>
+                    <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Status</span>
+                    <p className={`text-sm font-black uppercase tracking-wider ${order.deliveryStatus === 'In Transit' ? 'text-amber-600' : 'text-primary'}`}>
                       {order.deliveryStatus}
                     </p>
                   </div>
                 </div>
 
-                <div className="space-y-3">
+                <div className="space-y-4">
                   <div className="flex items-start gap-3">
-                    <div className="mt-1 w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center text-slate-400">
+                    <div className="mt-1 w-8 h-8 rounded-xl bg-slate-50 flex items-center justify-center text-slate-400">
                       <MapPin size={16} />
                     </div>
                     <div>
-                      <p className="text-xs text-slate-400">Delivery Address</p>
-                      <p className="text-sm text-white font-medium">Main Hospital Wing, Floor 3, Room 302</p>
+                      <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Delivery Address</p>
+                      <p className="text-sm text-slate-900 font-bold">Main Hospital Wing, Floor 3, Room 302</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
-                    <div className="mt-1 w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center text-slate-400">
+                    <div className="mt-1 w-8 h-8 rounded-xl bg-slate-50 flex items-center justify-center text-slate-400">
                       <Phone size={16} />
                     </div>
                     <div>
-                      <p className="text-xs text-slate-400">Contact Personnel</p>
-                      <p className="text-sm text-white font-medium">Dr. {order.juniorDoctorName}</p>
+                      <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Contact Personnel</p>
+                      <p className="text-sm text-slate-900 font-bold">Dr. {order.juniorDoctorName}</p>
                     </div>
                   </div>
                 </div>
 
-                <div className="pt-4 border-t border-slate-700/50 flex items-center justify-between gap-4">
+                <div className="pt-5 border-t border-slate-50 flex items-center justify-between gap-4">
                   <div className="flex items-center gap-2">
-                    <Package size={16} className="text-slate-500" />
-                    <span className="text-xs text-slate-300">{order.items?.length || 0} Medical Items</span>
+                    <Package size={16} className="text-slate-300" />
+                    <span className="text-xs text-slate-500 font-medium">{(order.items || []).length} Medical Items</span>
                   </div>
                   <Button 
-                    className={`flex-1 sm:flex-none gap-2 shadow-lg ${
-                      order.deliveryStatus === 'Assigned' ? 'bg-primary hover:bg-primary/90 shadow-primary/20' : 'bg-emerald-500 hover:bg-emerald-600 shadow-emerald-500/20'
+                    className={`flex-1 sm:flex-none gap-2 font-black text-xs uppercase tracking-widest shadow-md ${
+                      order.deliveryStatus === 'Assigned' ? 'bg-primary hover:bg-primary/90 shadow-primary/10' : 'bg-emerald-500 hover:bg-emerald-600 shadow-emerald-500/10'
                     }`}
                     onClick={() => handleUpdateStatus(order.id, order.deliveryStatus)}
                     disabled={updatingId === order.id}
                   >
                     {order.deliveryStatus === 'Assigned' ? (
-                      <><Truck size={18} /> Picked & Start Trip</>
+                      <><Truck size={16} /> Picked Up</>
                     ) : (
-                      <><CheckCircle2 size={18} /> Confirm Delivery</>
+                      <><CheckCircle2 size={16} /> Delivered</>
                     )}
                   </Button>
                 </div>

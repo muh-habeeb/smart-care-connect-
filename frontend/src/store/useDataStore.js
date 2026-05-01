@@ -92,7 +92,7 @@ const useDataStore = create((setStore, get) => ({
   markOrderAsPaid: async (id, paymentMethod, seniorInfo = {}) => {
     await update(ref(db, `orders/${id}`), { 
       paymentMethod, 
-      paymentStatus: 'Paid',
+      paymentStatus: paymentMethod === 'COD' ? 'To be Paid' : 'Paid',
       status: 'Waiting for Delivery Assignment',
       ...seniorInfo
     });
@@ -116,7 +116,10 @@ const useDataStore = create((setStore, get) => ({
   
   // Deliveries Methods
   updateDeliveryStatus: async (orderId, deliveryStatus) => {
+    const orders = get().orders;
+    const order = orders[orderId];
     const updates = { deliveryStatus };
+    
     if (deliveryStatus === 'Delivered') {
       updates.status = 'Delivered';
       updates.deliveredAt = new Date().toISOString();
@@ -124,6 +127,10 @@ const useDataStore = create((setStore, get) => ({
     if (deliveryStatus === 'Completed') {
       updates.status = 'Completed';
       updates.completedAt = new Date().toISOString();
+      // If COD, mark as Paid now
+      if (order?.paymentMethod === 'COD') {
+        updates.paymentStatus = 'Paid';
+      }
     }
     if (deliveryStatus === 'In Transit') {
       updates.dispatchedAt = new Date().toISOString();
