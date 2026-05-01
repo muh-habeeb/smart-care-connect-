@@ -105,7 +105,7 @@ export default function DoctorDashboard() {
                   />
                 </div>
               ) : (
-                <div className="divide-y divide-slate-50">
+                <div className="divide-y divide-slate-200">
                   {myJuniorDoctors.map((junior) => (
                     <div key={junior.id} className="flex items-center justify-between p-4 hover:bg-slate-50 transition-colors">
                       <div className="flex items-center gap-3">
@@ -145,7 +145,7 @@ export default function DoctorDashboard() {
                 />
               </div>
             ) : (
-              <div className="divide-y divide-slate-50">
+              <div className="divide-y divide-slate-200">
                 {myOrders.slice(0, 5).map((order) => (
                   <div key={order.id} className="flex items-center justify-between p-4 hover:bg-slate-50 transition-colors">
                     <div>

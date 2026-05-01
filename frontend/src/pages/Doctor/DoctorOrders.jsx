@@ -256,7 +256,7 @@ export default function DoctorOrders({ mode = 'history' }) {
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse whitespace-nowrap">
                 <thead>
-                  <tr className="border-b border-slate-50 bg-slate-50/50">
+                  <tr className="border-b border-slate-200 bg-slate-50/50">
                     <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase">Order ID</th>
                     <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase">Items</th>
                     <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase">Cost</th>
@@ -265,7 +265,7 @@ export default function DoctorOrders({ mode = 'history' }) {
                     <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase text-right">Action</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100">
+                <tbody className="divide-y divide-slate-200">
                   {ordersList.map((order) => (
                     <tr key={order.id} className="hover:bg-slate-50 transition-colors">
                       <td className="px-6 py-4 text-sm font-mono font-bold text-primary">#{order.shortId}</td>
@@ -284,6 +284,7 @@ export default function DoctorOrders({ mode = 'history' }) {
                       <td className="px-6 py-4">
                         <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase border ${
                           order.paymentStatus === 'Paid' ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : 
+                          order.paymentStatus === 'To be Paid' ? 'bg-amber-50 text-amber-600 border-amber-100' :
                           order.paymentStatus === 'Refunded' ? 'bg-blue-50 text-blue-600 border-blue-100' :
                           'bg-slate-50 text-slate-400 border border-slate-100'
                         }`}>
@@ -299,7 +300,9 @@ export default function DoctorOrders({ mode = 'history' }) {
                             {order.paymentStatus !== 'Paid' && (
                               <>
                                 <Button size="sm" onClick={() => processPayment(order.id, 'Razorpay')} className="h-8 bg-emerald-500 hover:bg-emerald-600 shadow-sm shadow-emerald-500/20">Pay Now</Button>
-                                <Button size="sm" onClick={() => processPayment(order.id, 'COD')} className="h-8 bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 shadow-sm">COD</Button>
+                                {order.paymentStatus !== 'To be Paid' && (
+                                  <Button size="sm" onClick={() => processPayment(order.id, 'COD')} className="h-8 bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 shadow-sm">COD</Button>
+                                )}
                               </>
                             )}
                             
@@ -348,7 +351,7 @@ export default function DoctorOrders({ mode = 'history' }) {
             {/* Current Items */}
             <div className="space-y-3">
               <h4 className="text-xs font-black uppercase text-slate-400 tracking-widest">Current Prescriptions</h4>
-              <div className="bg-slate-50/50 rounded-2xl border border-slate-100 divide-y divide-slate-100">
+              <div className="bg-slate-50/50 rounded-2xl border border-slate-100 divide-y divide-slate-200">
                 {editingOrder?.items.map((item, idx) => (
                   <div key={idx} className="p-4 flex justify-between items-center group hover:bg-white transition-colors">
                     <div>

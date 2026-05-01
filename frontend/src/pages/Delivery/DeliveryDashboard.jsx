@@ -92,7 +92,7 @@ export default function DeliveryDashboard() {
                 />
               </div>
             ) : (
-              <div className="divide-y divide-slate-50">
+              <div className="divide-y divide-slate-200">
                 {recentOrders.map((order) => (
                   <div key={order.id} className="p-4 flex items-center justify-between hover:bg-slate-50 transition-colors">
                     <div className="flex items-center gap-4">

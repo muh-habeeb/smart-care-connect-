@@ -50,7 +50,7 @@ export default function OrderDetails({ order, onClose }) {
                   <th className="px-6 py-4 text-right">Total</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-50">
+              <tbody className="divide-y divide-slate-200">
                 {order.items?.map((item, i) => (
                   <tr key={i} className="text-sm hover:bg-slate-50/50 transition-colors">
                     <td className="px-6 py-4">

@@ -103,14 +103,14 @@ export default function ManagerDeliveries() {
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse whitespace-nowrap">
               <thead>
-                <tr className="border-b border-slate-50 bg-slate-50/50">
+                <tr className="border-b border-slate-200 bg-slate-50/50">
                   <th className="px-6 py-5 text-xs font-bold text-slate-500 uppercase tracking-wider">Order Details</th>
                   <th className="px-6 py-5 text-xs font-bold text-slate-500 uppercase tracking-wider">Personnel Assignment</th>
                   <th className="px-6 py-5 text-xs font-bold text-slate-500 uppercase tracking-wider">Trip Status</th>
                   <th className="px-6 py-5 text-xs font-bold text-slate-500 uppercase tracking-wider text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100">
+              <tbody className="divide-y divide-slate-200">
                 {deliveriesList.map((delivery) => (
                   <tr key={delivery.id} className="hover:bg-slate-50 transition-colors group">
                     <td className="px-6 py-4">

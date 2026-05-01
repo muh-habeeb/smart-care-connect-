@@ -89,7 +89,7 @@ export default function ManagerUsers() {
         <div className="bg-white border border-slate-100 overflow-hidden clay-shadow rounded-3xl">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="border-b border-slate-50 bg-slate-50/50">
+              <tr className="border-b border-slate-200 bg-slate-50/50">
                 <th 
                   className="px-6 py-4 text-xs font-bold text-slate-500 uppercase cursor-pointer hover:bg-slate-100/50 transition-colors select-none group"
                   onClick={() => handleSort('name')}
@@ -132,7 +132,7 @@ export default function ManagerUsers() {
                 <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100">
+            <tbody className="divide-y divide-slate-200">
               {sortedUsers.map((user) => (
                 <tr key={user.id} className="hover:bg-slate-50 transition-colors">
                   <td className="px-6 py-4 text-sm font-semibold text-slate-900">{user.name}</td>

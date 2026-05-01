@@ -63,16 +63,16 @@ export default function ManagerOrders() {
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse whitespace-nowrap">
               <thead>
-                <tr className="border-b border-slate-50 bg-slate-50/50 text-xs font-bold text-slate-500 uppercase tracking-wider">
-                  <th className="px-6 py-5 cursor-pointer hover:bg-slate-100/50 transition-colors" onClick={() => handleSort('shortId')}>ID <SortIcon columnKey="shortId" /></th>
-                  <th className="px-6 py-5 cursor-pointer hover:bg-slate-100/50 transition-colors" onClick={() => handleSort('juniorDoctorName')}>Personnel <SortIcon columnKey="juniorDoctorName" /></th>
-                  <th className="px-6 py-5 cursor-pointer hover:bg-slate-100/50 transition-colors" onClick={() => handleSort('totalCost')}>Cost <SortIcon columnKey="totalCost" /></th>
+                <tr className="border-b border-slate-200 bg-slate-50/50 text-xs font-bold text-slate-500 uppercase tracking-wider">
+                  <th className="px-6 py-5 cursor-pointer hover:bg-slate-200 transition-colors" onClick={() => handleSort('shortId')}>ID <SortIcon columnKey="shortId" /></th>
+                  <th className="px-6 py-5 cursor-pointer hover:bg-slate-200 transition-colors" onClick={() => handleSort('juniorDoctorName')}>Personnel <SortIcon columnKey="juniorDoctorName" /></th>
+                  <th className="px-6 py-5 cursor-pointer hover:bg-slate-200 transition-colors" onClick={() => handleSort('totalCost')}>Cost <SortIcon columnKey="totalCost" /></th>
                   <th className="px-6 py-5">Payment</th>
                   <th className="px-6 py-5">Status</th>
                   <th className="px-6 py-5 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100">
+              <tbody className="divide-y divide-slate-200">
                 {ordersList.map((order) => (
                   <tr key={order.id} className="hover:bg-slate-50 transition-colors group">
                     <td className="px-6 py-4 text-sm font-mono font-bold text-primary">#{order.shortId}</td>
