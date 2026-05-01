@@ -80,7 +80,7 @@ export default function ActiveDeliveries() {
                     </div>
                     <div>
                       <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Delivery Address</p>
-                      <p className="text-sm text-slate-900 font-bold">Main Hospital Wing, Floor 3, Room 302</p>
+                      <p className="text-sm text-slate-900 font-bold">ZUmZum Hospital, Falnir Rd, Bendoor, Mangaluru, Karnataka 575002</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
