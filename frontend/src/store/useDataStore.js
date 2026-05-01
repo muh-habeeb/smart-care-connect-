@@ -39,6 +39,9 @@ const useDataStore = create((setStore, get) => ({
   updateUser: async (id, userData) => {
     await update(ref(db, `users/${id}`), userData);
   },
+  deleteUser: async (id) => {
+    await remove(ref(db, `users/${id}`));
+  },
 
   // Products Methods
   addProduct: async (productData) => {
@@ -68,12 +71,49 @@ const useDataStore = create((setStore, get) => ({
   updateOrder: async (id, orderData) => {
     await update(ref(db, `orders/${id}`), orderData);
   },
+
+  updateOrderItems: async (id, items, totalCost, seniorInfo = {}) => {
+    await update(ref(db, `orders/${id}`), { 
+      items, 
+      totalCost,
+      ...seniorInfo
+    });
+  },
+
+  markOrderAsPaid: async (id, paymentMethod, seniorInfo = {}) => {
+    await update(ref(db, `orders/${id}`), { 
+      paymentMethod, 
+      paymentStatus: 'Paid',
+      status: 'Waiting for Delivery Assignment',
+      ...seniorInfo
+    });
+  },
+
+  cancelOrder: async (id) => {
+    const orders = get().orders;
+    const order = orders[id];
+    const updates = { 
+      status: 'Cancelled',
+      deliveryStatus: 'Cancelled',
+      cancelledAt: new Date().toISOString()
+    };
+
+    if (order?.paymentStatus === 'Paid') {
+      updates.paymentStatus = 'Refunded';
+    }
+
+    await update(ref(db, `orders/${id}`), updates);
+  },
   
   // Deliveries Methods
   updateDeliveryStatus: async (orderId, deliveryStatus) => {
     const updates = { deliveryStatus };
-    if (deliveryStatus === 'Completed') {
+    if (deliveryStatus === 'Delivered') {
       updates.status = 'Completed';
+      updates.deliveredAt = new Date().toISOString();
+    }
+    if (deliveryStatus === 'In Transit') {
+      updates.dispatchedAt = new Date().toISOString();
     }
     await update(ref(db, `orders/${orderId}`), updates);
   }

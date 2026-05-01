@@ -1,24 +1,26 @@
 import { useState, useMemo } from 'react';
 import useDataStore from '../../store/useDataStore';
 import { EmptyState } from '../../components/ui/EmptyState';
-import { ShoppingCart, ArrowUpDown, ArrowUp, ArrowDown } from 'lucide-react';
+import { ShoppingCart, ArrowUpDown, ArrowUp, ArrowDown, User, Calendar, CreditCard, Package, Pill } from 'lucide-react';
 import { Button } from '../../components/ui/Button';
+import { Modal } from '../../components/ui/Modal';
+import OrderDetails from '../../components/orders/OrderDetails';
 
 export default function ManagerOrders() {
   const { orders } = useDataStore();
-  const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
+  const [sortConfig, setSortConfig] = useState({ key: 'id', direction: 'desc' });
+  const [selectedOrder, setSelectedOrder] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const ordersList = useMemo(() => {
     let list = Object.entries(orders || {}).map(([id, data]) => ({ id, ...data }));
     
     if (sortConfig.key) {
       list.sort((a, b) => {
-        let valA = a[sortConfig.key];
-        let valB = b[sortConfig.key];
-        
+        let valA = a[sortConfig.key] || '';
+        let valB = b[sortConfig.key] || '';
         if (typeof valA === 'string') valA = valA.toLowerCase();
         if (typeof valB === 'string') valB = valB.toLowerCase();
-        
         if (valA < valB) return sortConfig.direction === 'asc' ? -1 : 1;
         if (valA > valB) return sortConfig.direction === 'asc' ? 1 : -1;
         return 0;
@@ -35,6 +37,11 @@ export default function ManagerOrders() {
     setSortConfig({ key, direction });
   };
 
+  const openDetails = (order) => {
+    setSelectedOrder(order);
+    setIsModalOpen(true);
+  };
+
   const SortIcon = ({ columnKey }) => {
     if (sortConfig.key !== columnKey) return <ArrowUpDown className="w-3 h-3 ml-1 opacity-40 group-hover:opacity-100" />;
     return sortConfig.direction === 'asc' ? <ArrowUp className="w-3 h-3 ml-1 text-primary" /> : <ArrowDown className="w-3 h-3 ml-1 text-primary" />;
@@ -42,59 +49,63 @@ export default function ManagerOrders() {
 
   return (
     <div className="space-y-6 smooth-enter">
-      <div>
-        <h1 className="text-2xl font-semibold tracking-tight text-slate-900">Orders</h1>
-        <p className="text-sm text-slate-500 mt-1">Review and manage doctor orders and delivery assignments.</p>
+      <div className="flex justify-between items-end">
+        <div>
+          <h1 className="text-2xl font-semibold tracking-tight text-white">Master Order List</h1>
+          <p className="text-sm text-slate-300 mt-1">Full audit trail and detailed insights for all hospital orders.</p>
+        </div>
       </div>
 
       {ordersList.length === 0 ? (
-        <EmptyState 
-          title="No orders yet" 
-          description="Orders placed by doctors will appear here."
-          icon={ShoppingCart}
-        />
+        <EmptyState title="No orders yet" description="Orders placed by doctors will appear here." icon={ShoppingCart} />
       ) : (
-        <div className="bg-white/60 backdrop-blur-xl border border-slate-200/50 overflow-hidden shadow-sm rounded-xl">
+        <div className="bg-slate-900/60 backdrop-blur-xl border border-slate-700/50 overflow-hidden shadow-2xl rounded-2xl">
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse whitespace-nowrap">
               <thead>
-                <tr className="border-b border-slate-200 bg-slate-50/50">
-                  {['shortId', 'juniorDoctorName', 'seniorDoctorName', 'totalCost', 'paymentMethod', 'deliveryPerson', 'status'].map((col) => (
-                    <th 
-                      key={col} 
-                      className="px-6 py-4 text-xs font-semibold text-slate-500 uppercase cursor-pointer hover:bg-slate-100 group transition-colors select-none"
-                      onClick={() => handleSort(col)}
-                    >
-                      <div className="flex items-center">
-                        {col.replace(/([A-Z])/g, ' $1').trim()}
-                        <SortIcon columnKey={col} />
-                      </div>
-                    </th>
-                  ))}
-                  <th className="px-6 py-4 text-xs font-semibold text-slate-500 uppercase text-right">Action</th>
+                <tr className="border-b border-slate-700/50 bg-slate-800/80 text-xs font-bold text-slate-200 uppercase tracking-wider">
+                  <th className="px-6 py-5 cursor-pointer hover:bg-slate-700/50 transition-colors" onClick={() => handleSort('shortId')}>ID <SortIcon columnKey="shortId" /></th>
+                  <th className="px-6 py-5 cursor-pointer hover:bg-slate-700/50 transition-colors" onClick={() => handleSort('juniorDoctorName')}>Personnel <SortIcon columnKey="juniorDoctorName" /></th>
+                  <th className="px-6 py-5 cursor-pointer hover:bg-slate-700/50 transition-colors" onClick={() => handleSort('totalCost')}>Cost <SortIcon columnKey="totalCost" /></th>
+                  <th className="px-6 py-5">Payment</th>
+                  <th className="px-6 py-5">Status</th>
+                  <th className="px-6 py-5 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100">
+              <tbody className="divide-y divide-slate-700/50">
                 {ordersList.map((order) => (
-                  <tr key={order.id} className="hover:bg-slate-50 transition-colors cursor-pointer group">
-                    <td className="px-6 py-4 text-sm font-mono text-slate-900">#{order.shortId}</td>
-                    <td className="px-6 py-4 text-sm text-slate-600">{order.juniorDoctorName || '-'}</td>
-                    <td className="px-6 py-4 text-sm text-slate-600">{order.seniorDoctorName || '-'}</td>
-                    <td className="px-6 py-4 text-sm font-medium text-slate-900">₹{(order.totalCost || 0).toLocaleString()}</td>
-                    <td className="px-6 py-4 text-sm text-slate-600">{order.paymentMethod || 'COD'}</td>
-                    <td className="px-6 py-4 text-sm text-slate-600">{order.deliveryPerson || 'Unassigned'}</td>
+                  <tr key={order.id} className="hover:bg-white/5 transition-colors group">
+                    <td className="px-6 py-4 text-sm font-mono font-bold text-primary">#{order.shortId}</td>
                     <td className="px-6 py-4">
-                      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                        order.status === 'Completed' ? 'bg-blue-100 text-blue-700' :
-                        order.status === 'Delivered' ? 'bg-emerald-100 text-emerald-700' :
-                        order.status === 'Cancelled' ? 'bg-red-100 text-red-700' :
-                        'bg-amber-100 text-amber-700'
+                      <p className="text-sm text-white font-semibold">{order.juniorDoctorName}</p>
+                      <p className="text-[11px] text-slate-400 font-medium mt-0.5">Approved by {order.seniorDoctorName}</p>
+                    </td>
+                    <td className="px-6 py-4 text-sm font-black text-white">₹{order.totalCost?.toLocaleString()}</td>
+                    <td className="px-6 py-4">
+                      <span className={`text-[10px] font-black uppercase px-2 py-1 rounded border shadow-sm ${
+                        order.paymentStatus === 'Paid' ? 'border-emerald-500/30 bg-emerald-500/20 text-emerald-300' : 
+                        order.paymentStatus === 'Refunded' ? 'border-blue-500/30 bg-blue-500/20 text-blue-300' :
+                        'border-slate-600 bg-slate-700 text-slate-300'
                       }`}>
+                        {order.paymentStatus || 'Unpaid'}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4">
+                      <span className={`inline-flex items-center px-3 py-1 rounded-full text-[10px] text-white font-bold tracking-wider uppercase tracking-tight shadow-sm ${
+                        order.status === 'Completed' ? 'bg-blue-500/30 text-blue-300' :
+                        order.status === 'In Transit' ? 'bg-amber-500/30 text-amber-300' :
+                        'bg-primary/30 text-primary-light'
+                      }`}>
+                        <div className={`w-1.5 h-1.5 rounded-full mr-2 animate-pulse ${
+                          order.status === 'Completed' ? 'bg-blue-400' :
+                          order.status === 'In Transit' ? 'bg-amber-400' :
+                          'bg-primary'
+                        }`} />
                         {order.status}
                       </span>
                     </td>
                     <td className="px-6 py-4 text-right">
-                      <Button variant="ghost" size="sm" className="h-8">Details</Button>
+                      <Button variant="ghost" size="sm" onClick={() => openDetails(order)} className="h-8 text-primary hover:bg-primary/10">Details</Button>
                     </td>
                   </tr>
                 ))}
@@ -103,6 +114,12 @@ export default function ManagerOrders() {
           </div>
         </div>
       )}
+
+      {/* Order Details Modal */}
+      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="Detailed Order Invoice">
+        <OrderDetails order={selectedOrder} onClose={() => setIsModalOpen(false)} />
+      </Modal>
     </div>
   );
 }
+
