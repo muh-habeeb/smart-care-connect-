@@ -5,6 +5,7 @@ import useAuthStore from '../../store/useAuthStore';
 import { LayoutDashboard, Users, Box, ShoppingCart, Truck, LogOut, Lock, User,Clock } from 'lucide-react';
 import { cn } from '../../lib/utils';
 import { Modal } from '../ui/Modal';
+import { PasswordInput } from '../ui/PasswordInput';
 import { Button } from '../ui/Button';
 
 export default function Sidebar({ role }) {
@@ -133,26 +134,29 @@ export default function Sidebar({ role }) {
         <form onSubmit={handlePassChange} className="space-y-4">
           <div className="space-y-2">
             <label className="text-xs font-medium text-slate-400 ml-1">Current Password</label>
-            <input 
-              type="password" required value={passData.current} 
+            <PasswordInput 
+              value={passData.current} 
               onChange={e => setPassData({...passData, current: e.target.value})}
-              className="w-full h-11 px-3 rounded-lg border border-slate-700/50 bg-slate-900/50 focus:outline-none focus:ring-2 focus:ring-primary/50 text-sm text-white"
+              className="h-11"
+              required
             />
           </div>
           <div className="space-y-2">
             <label className="text-xs font-medium text-slate-400 ml-1">New Password</label>
-            <input 
-              type="password" required value={passData.new} 
+            <PasswordInput 
+              value={passData.new} 
               onChange={e => setPassData({...passData, new: e.target.value})}
-              className="w-full h-11 px-3 rounded-lg border border-slate-700/50 bg-slate-900/50 focus:outline-none focus:ring-2 focus:ring-primary/50 text-sm text-white"
+              className="h-11"
+              required
             />
           </div>
           <div className="space-y-2">
             <label className="text-xs font-medium text-slate-400 ml-1">Confirm New Password</label>
-            <input 
-              type="password" required value={passData.confirm} 
+            <PasswordInput 
+              value={passData.confirm} 
               onChange={e => setPassData({...passData, confirm: e.target.value})}
-              className="w-full h-11 px-3 rounded-lg border border-slate-700/50 bg-slate-900/50 focus:outline-none focus:ring-2 focus:ring-primary/50 text-sm text-white"
+              className="h-11"
+              required
             />
           </div>
           <div className="flex gap-3 pt-4">

@@ -5,6 +5,7 @@ import useDataStore from '../../store/useDataStore';
 import { EmptyState } from '../../components/ui/EmptyState';
 import { Users as UsersIcon, Plus, ArrowUpDown, ArrowUp, ArrowDown, Clock } from 'lucide-react';
 import { Button } from '../../components/ui/Button';
+import { PasswordInput } from '../../components/ui/PasswordInput';
 import { Modal } from '../../components/ui/Modal';
 
 export default function ManagerUsers() {
@@ -263,9 +264,12 @@ export default function ManagerUsers() {
           </div>
           <div>
             <label className="block text-sm font-medium text-slate-300 mb-1">Temporary Password</label>
-            <input 
-              required value={formData.password} onChange={e => setFormData({...formData, password: e.target.value})}
-              className="w-full h-10 px-3 rounded-lg border border-slate-700/50 bg-slate-900/50 focus:outline-none focus:ring-2 focus:ring-primary/50 text-sm text-white"
+            <PasswordInput 
+              value={formData.password} 
+              onChange={e => setFormData({...formData, password: e.target.value})}
+              placeholder="Enter password"
+              className="h-10"
+              required
             />
           </div>
           <div>

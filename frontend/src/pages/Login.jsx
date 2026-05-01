@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import useAuthStore from '../store/useAuthStore';
 import { Button } from '../components/ui/Button';
+import { PasswordInput } from '../components/ui/PasswordInput';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -49,13 +50,11 @@ export default function Login() {
           </div>
           <div className="space-y-2">
             <label className="block text-sm font-medium text-slate-300 ml-1">Password</label>
-            <input 
-              type="password" 
-              required
+            <PasswordInput 
               value={password}
               onChange={e => setPassword(e.target.value)}
-              className="w-full h-12 px-4 rounded-xl border border-slate-700/50 bg-slate-900/50 focus:outline-none focus:ring-2 focus:ring-primary/50 text-white placeholder:text-slate-600 transition-all text-sm"
               placeholder="••••••••"
+              required
             />
           </div>
           
