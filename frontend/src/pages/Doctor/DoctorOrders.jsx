@@ -89,7 +89,8 @@ export default function DoctorOrders({ mode = 'history' }) {
   const handlePlaceOrder = async () => {
     setIsSubmitting(true);
     try {
-      const seniorDoc = Object.values(users).find(u => u.id === user.seniorDoctorId);
+      const seniorEntry = Object.entries(users || {}).find(([uid]) => uid === user?.seniorDoctorId);
+      const seniorDoc = seniorEntry ? { id: seniorEntry[0], ...seniorEntry[1] } : undefined;
       const orderData = {
         juniorDoctorId: user.id,
         juniorDoctorName: user.name,
@@ -242,6 +243,26 @@ export default function DoctorOrders({ mode = 'history' }) {
             </Button>
           )}
         </div>
+
+        {/* Senior Doctor Info Card for Junior Doctors */}
+        {user?.role === 'Junior Doctor' && (() => {
+          const seniorEntry = Object.entries(users || {}).find(([uid]) => uid === user?.seniorDoctorId);
+            const seniorDoc = seniorEntry ? { id: seniorEntry[0], ...seniorEntry[1] } : undefined;
+            return seniorDoc ? (
+            <div className="bg-gradient-to-r from-blue-50 to-blue-50/50 border border-blue-100 rounded-2xl p-5 shadow-sm">
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
+                  <Stethoscope className="w-6 h-6 text-blue-600" />
+                </div>
+                <div className="flex-1">
+                  <p className="text-xs font-black uppercase tracking-widest text-blue-600 mb-1">Your Senior Doctor</p>
+                  <p className="text-lg font-bold text-slate-900">{seniorDoc.name}</p>
+                  <p className="text-sm text-slate-600 mt-1">{seniorDoc.email}</p>
+                </div>
+              </div>
+            </div>
+          ) : null;
+        })()}
 
         {ordersList.length === 0 ? (
           <EmptyState 

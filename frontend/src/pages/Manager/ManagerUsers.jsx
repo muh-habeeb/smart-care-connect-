@@ -49,6 +49,21 @@ export default function ManagerUsers() {
 
   const seniorDoctors = usersList.filter(u => u.role === 'Senior Doctor');
 
+  const roleBadgeClasses = (role) => {
+    switch (role) {
+      case 'Junior Doctor':
+        return 'inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase bg-violet-50 text-violet-700 border border-violet-100';
+      case 'Senior Doctor':
+        return 'inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase bg-blue-50 text-blue-700 border border-blue-100';
+      case 'Delivery Person':
+        return 'inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase bg-emerald-50 text-emerald-700 border border-emerald-100';
+      case 'Medical Shop':
+        return 'inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase bg-amber-50 text-amber-700 border border-amber-100';
+      default:
+        return 'inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase bg-slate-50 text-slate-700 border border-slate-100';
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -139,7 +154,7 @@ export default function ManagerUsers() {
                   <td className="px-6 py-4 text-sm font-semibold text-slate-900">{user.name}</td>
                   <td className="px-6 py-4 text-sm text-slate-600">{user.email}</td>
                   <td className="px-6 py-4">
-                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase bg-primary/10 text-primary border border-primary/20">
+                    <span className={roleBadgeClasses(user.role)}>
                       {user.role}
                     </span>
                   </td>

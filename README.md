@@ -1,6 +1,4 @@
 # SmartCareConnect 🏥
-when ordering item do validtion that much ite mexist in stock , add stoke validationa d reduction when order hapens , if item is less thans it orderd show erro the numerb of  item cout he can order not more than becuse it will be 0 liektat 
-
 
 SmartCareConnect is a high-fidelity hospital logistics and medical order management system designed to streamline the workflow between doctors, managers, and delivery personnel. Built with a modern "Glassmorphism" aesthetic, it provides a premium, real-time experience for hospital staff.
 
