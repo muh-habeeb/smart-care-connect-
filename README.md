@@ -1,4 +1,6 @@
 # SmartCareConnect 🏥
+when ordering item do validtion that much ite mexist in stock , add stoke validationa d reduction when order hapens , if item is less thans it orderd show erro the numerb of  item cout he can order not more than becuse it will be 0 liektat 
+
 
 SmartCareConnect is a high-fidelity hospital logistics and medical order management system designed to streamline the workflow between doctors, managers, and delivery personnel. Built with a modern "Glassmorphism" aesthetic, it provides a premium, real-time experience for hospital staff.
 
@@ -77,6 +79,14 @@ The project follows a modular architecture:
 *   `/frontend/src/store`: Centralized data and auth state.
 *   `/backend/controllers`: Business logic for auth, orders, and payments.
 *   `/backend/routes`: API endpoints mapped to specific roles.
+
+## 🔮 Future Development
+
+### 🏥 Medical Shop Integration
+*   **Sales Analytics:** Detailed tracking of medicine sales by vendor, including daily/monthly revenue reports.
+*   **Hospital-Specific Ordering:** Multi-hospital support allowing medical shops to fulfill orders from different healthcare facilities.
+*   **Personnel Attribution:** Track specifically which doctor ordered which batch of supplies to improve accountability.
+*   **Automated Restocking:** Predictive inventory alerts that automatically notify managers when essential medicines are running low.
 
 ## 📄 License
 This project is for internal hospital use and authorized medical personnel only.

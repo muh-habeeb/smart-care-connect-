@@ -29,6 +29,7 @@ export default function DashboardLayout({ allowedRoles }) {
     if (user.role === 'Manager') return <Navigate to="/manager" replace />;
     if (user.role === 'Junior Doctor' || user.role === 'Senior Doctor') return <Navigate to="/doctor" replace />;
     if (user.role === 'Delivery Person') return <Navigate to="/delivery" replace />;
+    if (user.role === 'Medical Shop') return <Navigate to="/medical-shop" replace />;
   }
 
   return (

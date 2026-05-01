@@ -14,6 +14,8 @@ import DoctorOrders from './pages/Doctor/DoctorOrders';
 import DeliveryDashboard from './pages/Delivery/DeliveryDashboard';
 import ActiveDeliveries from './pages/Delivery/ActiveDeliveries';
 import DeliveryHistory from './pages/Delivery/DeliveryHistory';
+import MedicalShopDashboard from './pages/MedicalShop/MedicalShopDashboard';
+import MedicalShopProducts from './pages/MedicalShop/MedicalShopProducts';
 import ResetPassword from './pages/ResetPassword';
 
 function BackgroundManager() {
@@ -38,6 +40,8 @@ function BackgroundManager() {
     bgImage = "url('https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=1920&q=80')"; // Stethoscope
   } else if (path.startsWith('/delivery')) {
     bgImage = "url('https://images.unsplash.com/photo-1580674285054-bed31e145f59?w=1920&q=80')"; // Courier
+  } else if (path.startsWith('/medical-shop')) {
+    bgImage = "url('https://images.unsplash.com/photo-1586015555751-63bb77f4322a?w=1920&q=80')"; // Pharmacy
   }
 
   return (
@@ -100,6 +104,12 @@ export default function App() {
           <Route path="/delivery" element={<DeliveryDashboard />} />
           <Route path="/delivery/active" element={<ActiveDeliveries />} />
           <Route path="/delivery/history" element={<DeliveryHistory />} />
+        </Route>
+
+        {/* Medical Shop Routes */}
+        <Route element={<DashboardLayout allowedRoles={['Medical Shop']} />}>
+          <Route path="/medical-shop" element={<MedicalShopDashboard />} />
+          <Route path="/medical-shop/products" element={<MedicalShopProducts />} />
         </Route>
       </Routes>
     </BrowserRouter>

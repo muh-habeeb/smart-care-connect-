@@ -13,7 +13,7 @@ export default function ManagerUsers() {
   const usersList = Object.entries(users || {}).map(([id, data]) => ({ id, ...data }));
   
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [formData, setFormData] = useState({ name: '', email: '', password: '', role: 'Junior Doctor', seniorDoctorId: '' });
+  const [formData, setFormData] = useState({ name: '', email: '', password: '', role: 'Junior Doctor', seniorDoctorId: '', address: '' });
   
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [editingUser, setEditingUser] = useState(null);
@@ -57,7 +57,7 @@ export default function ManagerUsers() {
       await axios.post(import.meta.env.VITE_API_URL + '/users', formData, { withCredentials: true });
       toast.success('User created successfully!');
       setIsModalOpen(false);
-      setFormData({ name: '', email: '', password: '', role: 'Junior Doctor', seniorDoctorId: '' });
+      setFormData({ name: '', email: '', password: '', role: 'Junior Doctor', seniorDoctorId: '', address: '' });
     } catch (err) {
       const errorMsg = err.response?.data?.error || 'Failed to create user';
       setError(errorMsg);
@@ -72,7 +72,7 @@ export default function ManagerUsers() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-semibold tracking-tight text-slate-900">Users</h1>
-          <p className="text-sm text-slate-500 mt-1">Manage doctors, delivery personnel, and managers.</p>
+          <p className="text-sm text-slate-500 mt-1">Manage doctors, delivery personnel, medical shops, and managers.</p>
         </div>
         <Button className="gap-2 shadow-md hover:shadow-lg transition-all" onClick={() => setIsModalOpen(true)}>
           <Plus className="w-4 h-4" /> Add User
@@ -129,6 +129,7 @@ export default function ManagerUsers() {
                     {sortConfig.column !== 'role' && <ArrowUpDown className="w-3 h-3 text-slate-400 opacity-0 group-hover:opacity-100" />}
                   </div>
                 </th>
+                <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase">Address / Info</th>
                 <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase text-right">Actions</th>
               </tr>
             </thead>
@@ -141,6 +142,9 @@ export default function ManagerUsers() {
                     <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase bg-primary/10 text-primary border border-primary/20">
                       {user.role}
                     </span>
+                  </td>
+                  <td className="px-6 py-4 text-sm text-slate-500 italic max-w-[200px] truncate">
+                    {user.address || '-'}
                   </td>
                   <td className="px-6 py-4 text-right">
                     <div className="flex items-center justify-end gap-1">
@@ -182,8 +186,8 @@ export default function ManagerUsers() {
             e.preventDefault();
             setEditLoading(true);
             try {
-              const { id, name, email, role, seniorDoctorId } = editingUser;
-              await updateUser(id, { name, email, role, seniorDoctorId: role === 'Junior Doctor' ? seniorDoctorId : null });
+              const { id, name, email, role, seniorDoctorId, address } = editingUser;
+              await updateUser(id, { name, email, role, seniorDoctorId: role === 'Junior Doctor' ? seniorDoctorId : null, address: address || null });
               toast.success('User updated successfully!');
               setIsEditModalOpen(false);
             } catch (err) {
@@ -215,8 +219,19 @@ export default function ManagerUsers() {
                 <option value="Junior Doctor">Junior Doctor</option>
                 <option value="Senior Doctor">Senior Doctor</option>
                 <option value="Delivery Person">Delivery Person</option>
+                <option value="Medical Shop">Medical Shop</option>
               </select>
             </div>
+            {editingUser.role === 'Medical Shop' && (
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-1">Store Address</label>
+                <textarea 
+                  required value={editingUser.address || ''} onChange={e => setEditingUser({...editingUser, address: e.target.value})}
+                  className="w-full p-4 rounded-xl border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-primary/20 text-sm text-slate-900 min-h-[100px]"
+                  placeholder="Enter shop location..."
+                />
+              </div>
+            )}
             {editingUser.role === 'Junior Doctor' && (() => {
               const availableSeniorDoctors = seniorDoctors.filter(sd => sd.id !== editingUser.id);
               return (
@@ -283,8 +298,19 @@ export default function ManagerUsers() {
               <option value="Junior Doctor">Junior Doctor</option>
               <option value="Senior Doctor">Senior Doctor</option>
               <option value="Delivery Person">Delivery Person</option>
+              <option value="Medical Shop">Medical Shop</option>
             </select>
           </div>
+          {formData.role === 'Medical Shop' && (
+            <div>
+              <label className="block text-sm font-medium text-slate-700 mb-1">Store Address</label>
+              <textarea 
+                required value={formData.address} onChange={e => setFormData({...formData, address: e.target.value})}
+                className="w-full p-4 rounded-xl border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-primary/20 text-sm text-slate-900 min-h-[100px]"
+                placeholder="Enter shop location..."
+              />
+            </div>
+          )}
           {formData.role === 'Junior Doctor' && (
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-1">Assign to Senior Doctor</label>

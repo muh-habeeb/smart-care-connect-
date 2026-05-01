@@ -50,6 +50,12 @@ export default function Sidebar({ role }) {
       }
       return docLinks;
     }
+    if (role === 'Medical Shop') {
+      return [
+        { path: '/medical-shop', label: 'Dashboard', icon: LayoutDashboard, exact: true },
+        { path: '/medical-shop/products', label: 'Manage Products', icon: Box },
+      ];
+    }
     if (role === 'Delivery Person') {
       return [
         { path: '/delivery', label: 'Dashboard', icon: LayoutDashboard, exact: true },

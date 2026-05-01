@@ -17,7 +17,7 @@ const transporter = nodemailer.createTransport({
 
 export const createUser = async (req, res) => {
   try {
-    const { name, email, password, role, seniorDoctorId } = req.body;
+    const { name, email, password, role, seniorDoctorId, address } = req.body;
 
     if (!name || !email || !password || !role) {
       return res.status(400).json({ error: 'Please provide all required fields' });
@@ -54,6 +54,9 @@ export const createUser = async (req, res) => {
     if (role === 'Junior Doctor') {
       newUserData.seniorDoctorId = seniorDoctorId;
     }
+    if (address) {
+      newUserData.address = address;
+    }
 
     await set(newUserRef, newUserData);
 
@@ -62,7 +65,7 @@ export const createUser = async (req, res) => {
       from: `"SmartCareConnect Admin" <${process.env.SMTP_USER}>`,
       to: email,
       subject: 'Your SmartCareConnect Account Details',
-      text: `Hello ${name},\n\nYour account has been created.\nRole: ${role}\nEmail: ${email}\nPassword: ${password}\n\nPlease login at the portal.\n\nThanks,\nAdmin`,
+      text: `Hello ${name},\n\nYour account has been created.\nRole: ${role}\nEmail: ${email}\nPassword: ${password}${address ? `\nAddress: ${address}` : ''}\n\nPlease login at the portal.\n\nThanks,\nAdmin`,
     };
 
     try {
