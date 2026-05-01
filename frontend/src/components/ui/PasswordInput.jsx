@@ -11,7 +11,7 @@ export const PasswordInput = ({ value, onChange, placeholder, required = false, 
         required={required}
         value={value}
         onChange={onChange}
-        className={`w-full h-12 px-4 pr-12 rounded-xl border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-primary/20 text-slate-900 placeholder:text-slate-400 transition-all text-sm ${className}`}
+        className={`w-full h-12 px-4 pr-12 rounded-xl border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-primary/20 text-slate-900 placeholder:text-slate-400 text-sm ${className}`}
         placeholder={placeholder}
       />
       <button

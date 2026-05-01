@@ -54,6 +54,7 @@ export default function Sidebar({ role }) {
       return [
         { path: '/delivery', label: 'Dashboard', icon: LayoutDashboard, exact: true },
         { path: '/delivery/active', label: 'Active Deliveries', icon: Truck },
+        { path: '/delivery/history', label: 'My Deliveries', icon: Clock },
       ];
     }
     return [];

@@ -13,6 +13,8 @@ import DoctorDashboard from './pages/Doctor/DoctorDashboard';
 import DoctorOrders from './pages/Doctor/DoctorOrders';
 import DeliveryDashboard from './pages/Delivery/DeliveryDashboard';
 import ActiveDeliveries from './pages/Delivery/ActiveDeliveries';
+import DeliveryHistory from './pages/Delivery/DeliveryHistory';
+import ResetPassword from './pages/ResetPassword';
 
 function BackgroundManager() {
   const location = useLocation();
@@ -74,6 +76,8 @@ export default function App() {
       />
       <Routes>
         <Route path="/" element={isAuthenticated ? <Navigate to="/manager" /> : <Login />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/reset-password/:token" element={<ResetPassword />} />
         
         {/* Manager Routes */}
         <Route element={<DashboardLayout allowedRoles={['Manager']} />}>
@@ -95,6 +99,7 @@ export default function App() {
         <Route element={<DashboardLayout allowedRoles={['Delivery Person']} />}>
           <Route path="/delivery" element={<DeliveryDashboard />} />
           <Route path="/delivery/active" element={<ActiveDeliveries />} />
+          <Route path="/delivery/history" element={<DeliveryHistory />} />
         </Route>
       </Routes>
     </BrowserRouter>
