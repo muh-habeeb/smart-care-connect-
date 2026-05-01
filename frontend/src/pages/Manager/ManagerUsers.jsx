@@ -86,7 +86,7 @@ export default function ManagerUsers() {
           icon={UsersIcon}
         />
       ) : (
-        <div className="bg-white border border-slate-100 overflow-hidden shadow-sm rounded-2xl">
+        <div className="bg-white border border-slate-100 overflow-hidden clay-shadow rounded-3xl">
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="border-b border-slate-50 bg-slate-50/50">

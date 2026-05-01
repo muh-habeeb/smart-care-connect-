@@ -59,7 +59,7 @@ export default function ManagerOrders() {
       {ordersList.length === 0 ? (
         <EmptyState title="No orders yet" description="Orders placed by doctors will appear here." icon={ShoppingCart} />
       ) : (
-        <div className="bg-white border border-slate-100 overflow-hidden shadow-sm rounded-2xl">
+        <div className="bg-white border border-slate-100 overflow-hidden clay-shadow rounded-3xl">
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse whitespace-nowrap">
               <thead>

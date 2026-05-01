@@ -73,21 +73,21 @@ export default function ManagerDeliveries() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Card className="bg-white border border-slate-100 shadow-sm">
+        <Card className="bg-white border border-slate-100 clay-shadow">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-xs font-bold text-slate-400 uppercase tracking-widest">Paid Orders</CardTitle>
             <Package className="w-4 h-4 text-primary" />
           </CardHeader>
           <CardContent><div className="text-3xl font-black text-slate-900">{stats.total}</div></CardContent>
         </Card>
-        <Card className="bg-white border border-slate-100 shadow-sm">
+        <Card className="bg-white border border-slate-100 clay-shadow">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-xs font-bold text-slate-400 uppercase tracking-widest">Ongoing Trips</CardTitle>
             <Truck className="w-4 h-4 text-amber-500" />
           </CardHeader>
           <CardContent><div className="text-3xl font-black text-slate-900">{stats.ongoing}</div></CardContent>
         </Card>
-        <Card className="bg-white border border-slate-100 shadow-sm">
+        <Card className="bg-white border border-slate-100 clay-shadow">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-xs font-bold text-slate-400 uppercase tracking-widest">Archived</CardTitle>
             <CheckCircle className="w-4 h-4 text-emerald-500" />
@@ -99,7 +99,7 @@ export default function ManagerDeliveries() {
       {deliveriesList.length === 0 ? (
         <EmptyState title="No active logistics" description="Paid orders ready for assignment will appear here." icon={Truck} />
       ) : (
-        <div className="bg-white border border-slate-100 overflow-hidden shadow-sm rounded-2xl">
+        <div className="bg-white border border-slate-100 overflow-hidden clay-shadow rounded-3xl">
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse whitespace-nowrap">
               <thead>

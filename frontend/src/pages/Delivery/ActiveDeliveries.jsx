@@ -53,7 +53,7 @@ export default function ActiveDeliveries() {
       ) : (
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
           {activeOrders.map((order) => (
-            <div key={order.id} className="bg-white border border-slate-100 rounded-2xl overflow-hidden shadow-sm flex flex-col sm:flex-row transition-all hover:shadow-md">
+            <div key={order.id} className="bg-white border border-slate-100 rounded-3xl overflow-hidden clay-shadow flex flex-col sm:flex-row transition-all hover:shadow-md">
               {/* Status Side Bar */}
               <div className={`w-2 ${
                 order.deliveryStatus === 'In Transit' ? 'bg-amber-500' : 'bg-primary'
