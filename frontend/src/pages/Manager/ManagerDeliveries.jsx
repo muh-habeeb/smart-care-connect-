@@ -13,7 +13,8 @@ export default function ManagerDeliveries() {
   const deliveriesList = useMemo(() => {
     return Object.entries(orders || {})
       .filter(([id, data]) => data.paymentStatus === 'Paid')
-      .map(([id, data]) => ({ id, ...data }));
+      .map(([id, data]) => ({ id, ...data }))
+      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
   }, [orders]);
 
   const deliveryPersons = useMemo(() => {
@@ -145,24 +146,40 @@ export default function ManagerDeliveries() {
                       )}
                     </td>
                     <td className="px-6 py-4">
-                      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${
-                        delivery.deliveryStatus === 'Delivered' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 shadow-[0_0_10px_rgba(52,211,153,0.1)]' :
-                        delivery.deliveryStatus === 'In Transit' ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20 shadow-[0_0_10px_rgba(245,158,11,0.1)]' :
-                        'bg-slate-500/10 text-slate-400 border border-slate-500/20'
+                      <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-tight shadow-sm border ${
+                        delivery.deliveryStatus === 'Delivered' ? 'border-emerald-500/30 bg-emerald-500/20 text-emerald-400' :
+                        delivery.deliveryStatus === 'In Transit' ? 'border-amber-500/30 bg-amber-500/20 text-amber-400' :
+                        'border-slate-600 bg-slate-800 text-slate-400'
                       }`}>
+                        <div className={`w-1.5 h-1.5 rounded-full ${
+                          delivery.deliveryStatus === 'Delivered' ? 'bg-emerald-400' :
+                          delivery.deliveryStatus === 'In Transit' ? 'bg-amber-400 animate-pulse' :
+                          'bg-slate-500'
+                        }`} />
                         {delivery.deliveryStatus}
                       </span>
                     </td>
                     <td className="px-6 py-4 text-right">
-                      <Button 
-                        size="sm" 
-                        variant={delivery.deliveryStatus === 'Delivered' ? 'default' : 'ghost'}
-                        className={`h-8 font-bold ${delivery.status === 'Completed' ? 'opacity-50 pointer-events-none' : ''}`}
-                        disabled={delivery.deliveryStatus !== 'Delivered' || delivery.status === 'Completed'}
-                        onClick={() => handleComplete(delivery.id)}
-                      >
-                        {delivery.status === 'Completed' ? 'Locked' : 'Complete Order'}
-                      </Button>
+                      {delivery.status === 'Completed' ? (
+                        <div className="flex items-center justify-end gap-2 text-emerald-400/50">
+                          <CheckCircle className="w-4 h-4" />
+                          <span className="text-[10px] font-black uppercase tracking-widest">Archived</span>
+                        </div>
+                      ) : (
+                        <Button 
+                          size="sm" 
+                          variant="default"
+                          className={`h-9 px-4 font-black text-[10px] uppercase tracking-widest transition-all duration-300 shadow-lg ${
+                            delivery.deliveryStatus === 'Delivered' 
+                              ? 'bg-emerald-500 hover:bg-emerald-600 text-white shadow-emerald-500/20 scale-105' 
+                              : 'bg-slate-800 text-slate-500 border border-slate-700 cursor-not-allowed opacity-40'
+                          }`}
+                          disabled={delivery.deliveryStatus !== 'Delivered'}
+                          onClick={() => handleComplete(delivery.id)}
+                        >
+                          {delivery.deliveryStatus === 'Delivered' ? 'Finalize & Close' : 'Awaiting Delivery'}
+                        </Button>
+                      )}
                     </td>
                   </tr>
                 ))}

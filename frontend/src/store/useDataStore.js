@@ -72,6 +72,15 @@ const useDataStore = create((setStore, get) => ({
     await update(ref(db, `orders/${id}`), orderData);
   },
 
+  updateDeliveryStatus: async (id, status) => {
+    const updates = { deliveryStatus: status };
+    if (status === 'Delivered') {
+      updates.status = 'Delivered';
+      updates.deliveredAt = new Date().toISOString();
+    }
+    await update(ref(db, `orders/${id}`), updates);
+  },
+
   updateOrderItems: async (id, items, totalCost, seniorInfo = {}) => {
     await update(ref(db, `orders/${id}`), { 
       items, 
@@ -109,8 +118,12 @@ const useDataStore = create((setStore, get) => ({
   updateDeliveryStatus: async (orderId, deliveryStatus) => {
     const updates = { deliveryStatus };
     if (deliveryStatus === 'Delivered') {
-      updates.status = 'Completed';
+      updates.status = 'Delivered';
       updates.deliveredAt = new Date().toISOString();
+    }
+    if (deliveryStatus === 'Completed') {
+      updates.status = 'Completed';
+      updates.completedAt = new Date().toISOString();
     }
     if (deliveryStatus === 'In Transit') {
       updates.dispatchedAt = new Date().toISOString();
