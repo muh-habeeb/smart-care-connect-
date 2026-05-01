@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { create } from 'zustand';
 import api from '../lib/api';
 
@@ -30,7 +31,7 @@ const useAuthStore = create((set, get) => ({
         message = error.response.data.error;
       }
       set({ error: message, isLoading: false });
-      throw new Error(message);
+      throw new Error(message, { cause: error });
     }
   },
 
@@ -48,7 +49,7 @@ const useAuthStore = create((set, get) => ({
       await api.post('/auth/change-password', { currentPassword, newPassword });
       return true;
     } catch (error) {
-      throw new Error(error.response?.data?.error || 'Failed to change password');
+      throw new Error(error.response?.data?.error || 'Failed to change password', { cause: error });
     }
   }
 }));

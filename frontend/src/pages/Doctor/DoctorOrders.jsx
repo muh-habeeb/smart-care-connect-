@@ -115,6 +115,8 @@ export default function DoctorOrders({ mode = 'history' }) {
       setCart({});
       setView('history');
     } catch (err) {
+      console.log(err)
+
       toast.error('Failed to place order');
     } finally {
       setIsSubmitting(false);
@@ -144,6 +146,7 @@ export default function DoctorOrders({ mode = 'history' }) {
       toast.success('Order updated');
       setIsEditModalOpen(false);
     } catch (err) {
+      console.log(err)
       toast.error('Update failed');
     }
   };
@@ -156,6 +159,8 @@ export default function DoctorOrders({ mode = 'history' }) {
       await cancelOrder(order.id);
       toast.success('Order cancelled successfully');
     } catch (err) {
+      console.log(err)
+
       toast.error('Failed to cancel order');
     }
   };
@@ -199,6 +204,7 @@ export default function DoctorOrders({ mode = 'history' }) {
         name: "SmartCareConnect",
         description: `Order Payment #${order.shortId}`,
         order_id: rzpOrder.id,
+        // eslint-disable-next-line no-unused-vars
         handler: async function (response) {
           const { markOrderAsPaid } = useDataStore.getState();
           await markOrderAsPaid(orderId, 'Razorpay', seniorInfo);

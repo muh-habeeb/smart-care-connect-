@@ -31,6 +31,7 @@ export default function ActiveDeliveries() {
         toast.success('Order officially delivered.');
       }
     } catch (err) {
+      console.log(err)
       toast.error('Failed to update status');
     } finally {
       setUpdatingId(null);

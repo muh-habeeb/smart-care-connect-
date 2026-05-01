@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react';
 import useDataStore from '../../store/useDataStore';
 import { EmptyState } from '../../components/ui/EmptyState';
-import { ShoppingCart, ArrowUpDown, ArrowUp, ArrowDown, User, Calendar, CreditCard, Package, Pill } from 'lucide-react';
+import { ShoppingCart, ArrowUpDown, ArrowUp, ArrowDown } from 'lucide-react';
 import { Button } from '../../components/ui/Button';
 import { Modal } from '../../components/ui/Modal';
 import OrderDetails from '../../components/orders/OrderDetails';
@@ -67,8 +67,8 @@ export default function ManagerOrders() {
                   <th className="px-6 py-5 cursor-pointer hover:bg-slate-200 transition-colors" onClick={() => handleSort('shortId')}>ID <SortIcon columnKey="shortId" /></th>
                   <th className="px-6 py-5 cursor-pointer hover:bg-slate-200 transition-colors" onClick={() => handleSort('juniorDoctorName')}>Personnel <SortIcon columnKey="juniorDoctorName" /></th>
                   <th className="px-6 py-5 cursor-pointer hover:bg-slate-200 transition-colors" onClick={() => handleSort('totalCost')}>Cost <SortIcon columnKey="totalCost" /></th>
-                  <th className="px-6 py-5">Payment</th>
-                  <th className="px-6 py-5">Status</th>
+                  <th className="px-6 py-5 cursor-pointer hover:bg-slate-200 transition-colors" onClick={() => handleSort('paymentStatus')}>Payment <SortIcon columnKey="paymentStatus" /></th>
+                  <th className="px-6 py-5 cursor-pointer hover:bg-slate-200 transition-colors" onClick={() => handleSort('status')}>Status <SortIcon columnKey="status" /></th>
                   <th className="px-6 py-5 text-right">Actions</th>
                 </tr>
               </thead>
