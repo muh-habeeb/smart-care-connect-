@@ -30,8 +30,8 @@ export default function ManagerDeliveries() {
     await updateOrder(orderId, {
       deliveryPersonId: personId,
       deliveryPerson: person.name,
-      deliveryStatus: 'Picked',
-      status: 'In Transit'
+      deliveryStatus: 'Assigned',
+      status: 'Awaiting Pickup'
     });
     toast.success(`Assigned to ${person.name}`);
     setAssignments(prev => {

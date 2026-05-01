@@ -16,16 +16,20 @@ export default function ActiveDeliveries() {
       .map(([id, data]) => ({ id, ...data }))
       .filter(order => 
         order.deliveryPersonId === user?.id && 
-        ['Picked', 'In Transit'].includes(order.deliveryStatus)
+        ['Assigned', 'In Transit'].includes(order.deliveryStatus)
       );
   }, [orders, user]);
 
   const handleUpdateStatus = async (orderId, currentStatus) => {
     setUpdatingId(orderId);
     try {
-      const nextStatus = currentStatus === 'Picked' ? 'In Transit' : 'Delivered';
-      await updateDeliveryStatus(orderId, nextStatus);
-      toast.success(`Order status: ${nextStatus}`);
+      if (currentStatus === 'Assigned') {
+        await updateDeliveryStatus(orderId, 'In Transit');
+        toast.success('Trip started! Order picked up.');
+      } else {
+        await updateDeliveryStatus(orderId, 'Delivered');
+        toast.success('Order officially delivered.');
+      }
     } catch (err) {
       toast.error('Failed to update status');
     } finally {
@@ -97,13 +101,13 @@ export default function ActiveDeliveries() {
                   </div>
                   <Button 
                     className={`flex-1 sm:flex-none gap-2 shadow-lg ${
-                      order.deliveryStatus === 'Picked' ? 'bg-primary hover:bg-primary/90 shadow-primary/20' : 'bg-emerald-500 hover:bg-emerald-600 shadow-emerald-500/20'
+                      order.deliveryStatus === 'Assigned' ? 'bg-primary hover:bg-primary/90 shadow-primary/20' : 'bg-emerald-500 hover:bg-emerald-600 shadow-emerald-500/20'
                     }`}
                     onClick={() => handleUpdateStatus(order.id, order.deliveryStatus)}
                     disabled={updatingId === order.id}
                   >
-                    {order.deliveryStatus === 'Picked' ? (
-                      <><Truck size={18} /> Start Trip</>
+                    {order.deliveryStatus === 'Assigned' ? (
+                      <><Truck size={18} /> Picked & Start Trip</>
                     ) : (
                       <><CheckCircle2 size={18} /> Confirm Delivery</>
                     )}

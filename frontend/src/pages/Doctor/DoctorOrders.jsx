@@ -36,20 +36,21 @@ export default function DoctorOrders({ mode = 'history' }) {
       .map(u => u.id);
 
     return list.filter(order => {
-      // 1. First check if it belongs to this team
-      const isMyTeam = order.juniorDoctorId === user?.id || 
-                       order.seniorDoctorId === user?.id || 
-                       myJuniorIds.includes(order.juniorDoctorId);
+      const isMyOwnOrder = order.juniorDoctorId === user?.id || order.seniorDoctorId === user?.id;
+      const isMyJuniorOrder = myJuniorIds.includes(order.juniorDoctorId);
+      const isTeamOrder = isMyOwnOrder || isMyJuniorOrder;
 
-      if (!isMyTeam && order.status !== 'Waiting Approval') return false;
-
-      // 2. Filter by mode
       if (mode === 'pending') {
-        return order.status === 'Waiting Approval';
+        // Senior Doctors see all "Waiting Approval" orders across the hospital
+        if (user?.role === 'Senior Doctor') {
+          return order.status === 'Waiting Approval';
+        }
+        // Juniors see their full history in the main orders view (not just pending)
+        return isMyOwnOrder;
       }
 
-      // 3. For History mode, show everything related to team
-      return isMyTeam;
+      // History mode: Show all orders belonging to the team/user
+      return isTeamOrder;
     }).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
   }, [orders, user, users, mode]);
 
@@ -224,16 +225,18 @@ export default function DoctorOrders({ mode = 'history' }) {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-semibold tracking-tight text-white">
-              {mode === 'pending' ? 'Approve Orders' : 'Order History'}
+              {user?.role === 'Senior Doctor' 
+                ? (mode === 'pending' ? 'Approve Orders' : 'Order History')
+                : 'My Orders'}
             </h1>
             <p className="text-sm text-slate-300 mt-1">
-              {mode === 'pending' 
-                ? 'Review and authorize pending medical requests from your juniors.' 
-                : 'Track your medical requests and prescriptions.'}
+              {user?.role === 'Senior Doctor'
+                ? (mode === 'pending' ? 'Review and authorize medical requests from your juniors.' : 'Track team medical requests and prescriptions.')
+                : 'Manage and track your medical requests and prescriptions.'}
             </p>
           </div>
-          {/* Senior Doctors cannot order - only Junior Doctors */}
-          {user?.role === 'Junior Doctor' && mode === 'history' && (
+          {/* Create Order Button for Juniors */}
+          {user?.role === 'Junior Doctor' && (
             <Button className="gap-2" onClick={() => setView('categories')}>
               <Plus className="w-4 h-4" /> Create New Order
             </Button>
