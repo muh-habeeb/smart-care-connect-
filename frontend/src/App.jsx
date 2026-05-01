@@ -1,122 +1,66 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import { useEffect } from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
+import useAuthStore from './store/useAuthStore';
+import Login from './pages/Login';
+import DashboardLayout from './components/layout/DashboardLayout';
+import ManagerDashboard from './pages/Manager/ManagerDashboard';
+import ManagerUsers from './pages/Manager/ManagerUsers';
+import ManagerProducts from './pages/Manager/ManagerProducts';
+import ManagerOrders from './pages/Manager/ManagerOrders';
+import ManagerDeliveries from './pages/Manager/ManagerDeliveries';
 
-function App() {
-  const [count, setCount] = useState(0)
+// Placeholder Pages
+const DoctorDashboard = () => <div className="text-2xl font-semibold smooth-enter">Doctor Dashboard</div>;
+const DeliveryDashboard = () => <div className="text-2xl font-semibold smooth-enter">Delivery Dashboard</div>;
+
+export default function App() {
+  const checkAuth = useAuthStore(state => state.checkAuth);
+  const isLoading = useAuthStore(state => state.isLoading);
+  const isAuthenticated = useAuthStore(state => state.isAuthenticated);
+
+  useEffect(() => {
+    checkAuth();
+  }, [checkAuth]);
+
+  if (isLoading) {
+    return <div className="min-h-screen flex items-center justify-center bg-[#F8FAFC]">Loading...</div>;
+  }
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    <BrowserRouter>
+      <Toaster 
+        position="top-center" 
+        toastOptions={{
+          className: 'bg-white/90 backdrop-blur-xl border border-slate-200 text-slate-900 shadow-xl rounded-xl text-sm font-medium',
+          duration: 4000,
+          style: { zIndex: 99999 }
+        }}
+      />
+      <Routes>
+        <Route path="/" element={isAuthenticated ? <Navigate to="/manager" /> : <Login />} />
+        
+        {/* Manager Routes */}
+        <Route element={<DashboardLayout allowedRoles={['Manager']} />}>
+          <Route path="/manager" element={<ManagerDashboard />} />
+          <Route path="/manager/users" element={<ManagerUsers />} />
+          <Route path="/manager/products" element={<ManagerProducts />} />
+          <Route path="/manager/orders" element={<ManagerOrders />} />
+          <Route path="/manager/delivery" element={<ManagerDeliveries />} />
+        </Route>
 
-      <div className="ticks"></div>
+        {/* Doctor Routes */}
+        <Route element={<DashboardLayout allowedRoles={['Junior Doctor', 'Senior Doctor']} />}>
+          <Route path="/doctor" element={<DoctorDashboard />} />
+          <Route path="/doctor/orders" element={<div>Doctor Orders</div>} />
+        </Route>
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+        {/* Delivery Routes */}
+        <Route element={<DashboardLayout allowedRoles={['Delivery Person']} />}>
+          <Route path="/delivery" element={<DeliveryDashboard />} />
+          <Route path="/delivery/active" element={<div>Active Deliveries</div>} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
 }
-
-export default App
